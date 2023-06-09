@@ -66,10 +66,6 @@
 
 <style lang="scss" scoped>
 .nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   // 上层工具区
   .tab-tool {
     height: 55px;

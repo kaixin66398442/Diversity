@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Control: typeof import('./src/components/control/Control.vue')['default']
     EditorContainer: typeof import('./src/components/container/EditorContainer.vue')['default']
     MaterialList: typeof import('./src/components/material/MaterialList.vue')['default']
     Nav: typeof import('./src/components/nav/Nav.vue')['default']

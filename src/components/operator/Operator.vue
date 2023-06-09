@@ -7,10 +7,9 @@
 
 <style lang="scss" scoped>
 .operator {
-  position: fixed;
-  top: 100px;
-  right: 0;
+ 
   width: 40px;
+  height: 100%;
   bottom: 35px;
   background-color: #f5f5f5;
   border-left: 1px solid rgba(0, 0, 0, 0.06);

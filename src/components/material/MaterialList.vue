@@ -14,11 +14,8 @@ const ishow=ref(true);
 
 <style lang="scss" scoped>
 .material-list {
-  position: fixed;
-  top: 100px;
-  left: 0;
   width: 250px;
-  bottom: 35px;
+  height: 100%;
   background-color: #f5f5f5;
   z-index: 2;
   border-right: 1px solid rgba(0, 0, 0, 0.06);

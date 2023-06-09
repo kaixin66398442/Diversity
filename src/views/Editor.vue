@@ -3,9 +3,10 @@
     <Nav></Nav>
     <div id="bottom">
       <MaterialList></MaterialList>
-      <Operator></Operator>
       <EditorContainer :state="state"></EditorContainer>
+      <Operator></Operator>
     </div>
+    <Control></Control>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
 import { reactive } from "vue";
 import data from "@/data.json";
+import Control from "@/components/control/Control.vue";
 const state: any = reactive(data);
 
 // window.addEventListener('scroll',(e)=>{
@@ -33,6 +35,8 @@ const aaa=(e:any)=>{
 <style scoped lang="scss">
 
 #bottom {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: flex-start;
   align-items: center;
