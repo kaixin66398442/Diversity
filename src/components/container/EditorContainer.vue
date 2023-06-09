@@ -38,24 +38,24 @@ const containerStyles = computed(() => ({
     width: 100%;
     height: 100%;
 
-    /* 设置滚动条的样式 */
-    &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-      border-radius: 5px;
-    }
+    // /* 设置滚动条的样式 */
+    // &::-webkit-scrollbar {
+    //   width: 5px;
+    //   height: 5px;
+    //   border-radius: 5px;
+    // }
 
-    /* 滚动槽 */
-    &::-webkit-scrollbar-track {
-      background-color: #fff;
-    }
+    // /* 滚动槽 */
+    // &::-webkit-scrollbar-track {
+    //   background-color: #fff;
+    // }
 
-    /* 滚动条滑块 */
-    &::-webkit-scrollbar-thumb {
-      width: 20px;
-      border-radius: 5px;
-      background: #d2d3d4;
-    }
+    // /* 滚动条滑块 */
+    // &::-webkit-scrollbar-thumb {
+    //   width: 20px;
+    //   border-radius: 5px;
+    //   background: #d2d3d4;
+    // }
 
     &-content {
       width: 800px;

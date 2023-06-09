@@ -1,13 +1,15 @@
 <template>
   <!-- 左侧物料库 -->
-  <div class="editor-left material-list"></div>
+  <div class="editor-left material-list" v-if="ishow"></div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps,ref} from "vue";
 //   const props: any = defineProps({
 //     state: { type: Object },
 //   })
+const ishow=ref(true);
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,11 @@
 <template>
-  <div class="editor">
+  <div class="editor" @wheel="aaa($event)">
     <Nav></Nav>
-    <MaterialList></MaterialList>
-    <Operator></Operator>
-    <EditorContainer :state="state"></EditorContainer>
+    <div id="bottom">
+      <MaterialList></MaterialList>
+      <Operator></Operator>
+      <EditorContainer :state="state"></EditorContainer>
+    </div>
   </div>
 </template>
 
@@ -15,9 +17,28 @@ import EditorContainer from "@/components/container/EditorContainer.vue";
 import { reactive } from "vue";
 import data from "@/data.json";
 const state: any = reactive(data);
+
+// window.addEventListener('scroll',(e)=>{
+//   console.log(e);
+//   console.log(e.target)
+// })
+
+const aaa=(e:any)=>{
+  console.log('aaaa');
+  console.log(e)
+}
+
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+#bottom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #d41a1a;
+}
+
 .editor {
   position: fixed;
   top: 0px;
