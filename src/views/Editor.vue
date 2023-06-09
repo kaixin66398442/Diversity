@@ -4,6 +4,7 @@
     <MaterialList></MaterialList>
     <Operator></Operator>
     <EditorContainer :state="state"></EditorContainer>
+    <Control></Control>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
 import { reactive } from "vue";
 import data from "@/data.json";
+import Control from "@/components/control/Control.vue";
 const state: any = reactive(data);
 </script>
 

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CanvasList: typeof import('./src/components/canvas/CanvasList.vue')['default']
     CanvasListItem: typeof import('./src/components/canvas/CanvasListItem.vue')['default']
+    Control: typeof import('./src/components/control/Control.vue')['default']
     Dialog: typeof import('./src/components/dialog/Dialog.vue')['default']
     EditorContainer: typeof import('./src/components/container/EditorContainer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
