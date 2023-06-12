@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" @wheel="aaa($event)">
+  <div class="editor" @wheel="handlerWheel($event)">
     <Nav></Nav>
     <div id="bottom">
       <MaterialList></MaterialList>
@@ -20,14 +20,13 @@ import data from "@/data.json";
 import Control from "@/components/control/Control.vue";
 const state: any = reactive(data);
 
-// window.addEventListener('scroll',(e)=>{
-//   console.log(e);
-//   console.log(e.target)
-// })
 
-const aaa=(e:any)=>{
-  console.log('aaaa');
-  console.log(e)
+//鼠标滚轮事件
+const handlerWheel=(e:MouseEvent)=>{
+  //判断是不是按下ctrl键,取消去除方法缩小网页的行为
+  if(e.ctrlKey){
+    e.preventDefault();
+  }
 }
 
 </script>
@@ -35,12 +34,10 @@ const aaa=(e:any)=>{
 <style scoped lang="scss">
 
 #bottom {
+  flex: 1;
   width: 100%;
-  height: 100vh;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  background-color: #d41a1a;
 }
 
 .editor {
@@ -51,5 +48,9 @@ const aaa=(e:any)=>{
   bottom: 0px;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
