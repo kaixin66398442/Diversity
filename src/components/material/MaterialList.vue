@@ -1,6 +1,10 @@
 <template>
   <!-- 左侧物料库 -->
-  <div class="editor-left material-list" v-if="store.material.isShowMaterial">
+  <div
+    class="editor-left material-list"
+    v-if="store.material.isShowMaterial"
+    :style="{ width: newWidth + 'px' }"
+  >
     <!-- 顶部导航栏 -->
     <div class="material-nav">
       <div class="left">
@@ -26,89 +30,104 @@
           height="24"
           class="svg"
           @click="store.material.isShowMaterial = false"
-        ></SvgIcon>
+        >
+        </SvgIcon>
       </div>
     </div>
 
     <!-- 物料内容区域 -->
-    
+
     <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+
+    <!-- 拖拽线条 -->
+    <div class="dragline" @mousedown="mouseDown"></div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { useStore } from "@/store";
+import { useDragChange } from "@/hook/useDragChange";
 
 const store = useStore();
 
+const newWidth = ref(250);
+
+//调用拖拽改变宽度的hook
+const { mouseDown } = useDragChange(newWidth, 250, 400);
+
+
+
+//elementplus的物料二级菜单，后续需要改
 interface Tree {
-  label: string
-  children?: Tree[]
+  label: string;
+  children?: Tree[];
 }
 
 const handleNodeClick = (data: Tree) => {
-  console.log(data)
-}
+  console.log(data);
+};
 
 const data: Tree[] = [
   {
-    label: '我的收藏',
+    label: "我的收藏",
     children: [
       {
-        label: 'Level two 1-1',
+        label: "Level two 1-1",
       },
     ],
   },
   {
-    label: '文本',
+    label: "文本",
     children: [
       {
-        label: 'Level two 2-1',
+        label: "Level two 2-1",
       },
       {
-        label: 'Level two 2-2',
+        label: "Level two 2-2",
       },
     ],
   },
   {
-    label: '基本绘图形状',
+    label: "基本绘图形状",
     children: [
       {
-        label: 'Level two 3-1',
+        label: "Level two 3-1",
       },
       {
-        label: 'Level two 3-2',
+        label: "Level two 3-2",
       },
     ],
   },
   {
-    label: '基本基本流程图形状',
+    label: "基本基本流程图形状",
     children: [
       {
-        label: 'Level two 3-1',
+        label: "Level two 3-1",
       },
       {
-        label: 'Level two 3-2',
+        label: "Level two 3-2",
       },
     ],
   },
-]
+];
 
 const defaultProps = {
-  children: 'children',
-  label: 'label',
-}
+  children: "children",
+  label: "label",
+};
 </script>
 
 <style lang="scss" scoped>
 .material-list {
-  width: 250px;
+  position: relative;
   height: 100%;
   background-color: #f5f5f5;
   z-index: 2;
   border-right: 1px solid rgba(0, 0, 0, 0.06);
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   user-select: none;
+
   .material-nav {
     position: relative;
     display: flex;
@@ -140,10 +159,12 @@ const defaultProps = {
         margin-right: 10px;
         cursor: pointer;
         transition: all 0.2s ease;
+
         span {
           margin-left: 10px;
         }
       }
+
       .svg:hover,
       .symbol:hover {
         background-color: #e7e7e7;
@@ -160,11 +181,21 @@ const defaultProps = {
         from {
           top: 9px;
         }
+
         to {
           top: 13px;
         }
       }
     }
+  }
+
+  .dragline {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 3px;
+    cursor: ew-resize;
   }
 }
 </style>

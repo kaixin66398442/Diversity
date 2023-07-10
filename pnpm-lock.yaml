@@ -10,6 +10,9 @@ dependencies:
   element-plus:
     specifier: ^2.3.5
     version: registry.npmmirror.com/element-plus@2.3.5(vue@3.2.47)
+  lodash-es:
+    specifier: ^4.17.21
+    version: registry.npmmirror.com/lodash-es@4.17.21
   mitt:
     specifier: ^3.0.0
     version: registry.npmmirror.com/mitt@3.0.0

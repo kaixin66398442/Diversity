@@ -9,7 +9,7 @@
       title="I have a nested table inside!"
       direction="rtl"
       size="50%"
-      modal="false"
+      model="false"
     >
     </el-drawer>
   </div>
