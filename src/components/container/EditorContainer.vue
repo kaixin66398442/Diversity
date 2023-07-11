@@ -68,8 +68,8 @@ const state = reactive({
 });
 
 //标尺的宽高
-const rulerWidth = computed(() => wapperRef.value.offsetWidth - state.thick);
-const rulerHeight = computed(() => wapperRef.value.offsetHeight - state.thick);
+const rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
+const rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
 const shadow = computed(() => {
   return {
