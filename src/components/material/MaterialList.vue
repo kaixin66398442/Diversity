@@ -37,7 +37,12 @@
 
     <!-- 物料内容区域 -->
 
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+    <el-tree :data="data" :props="defaultProps">
+      <template #default="{ node, data }">
+        <span v-if="!data.content">{{ data.label }}</span>
+        <div v-else v-html="data.content"></div>
+      </template>
+    </el-tree>
 
     <!-- 拖拽线条 -->
     <div class="dragline" @mousedown="mouseDown"></div>
@@ -54,26 +59,22 @@ const store = useStore();
 const newWidth = ref(250);
 
 //调用拖拽改变宽度的hook
-const { mouseDown } = useDragChange(newWidth, 250, 400);
-
-
+const { mouseDown } = useDragChange(newWidth, 200, 400);
 
 //elementplus的物料二级菜单，后续需要改
 interface Tree {
-  label: string;
+  label?: string;
+  content?: string;
   children?: Tree[];
 }
 
-const handleNodeClick = (data: Tree) => {
-  console.log(data);
-};
 
 const data: Tree[] = [
   {
     label: "我的收藏",
     children: [
       {
-        label: "Level two 1-1",
+        content: `<div>你好呀</div>`,
       },
     ],
   },

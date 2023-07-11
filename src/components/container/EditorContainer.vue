@@ -30,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, nextTick ,watchEffect} from "vue";
+import { computed, ref, reactive, onMounted, nextTick, watchEffect } from "vue";
 
-import SketchRule from "vue3-sketch-ruler";
+import { SketchRule } from "vue3-sketch-ruler";
 import "vue3-sketch-ruler/lib/style.css";
 import { useStore } from "@/store";
 
-const store=useStore();
+const store = useStore();
 
 const props: any = defineProps({
   state: { type: Object },
@@ -49,9 +49,9 @@ const containerStyles = computed(() => ({
 
 const rectWidth = 600;
 const rectHeight = 320;
-const screensRef = ref(null);
-const containerRef = ref(null);
-const wapperRef=ref(null);
+const screensRef: any = ref(null);
+const containerRef: any = ref(null);
+const wapperRef: any = ref(null);
 
 //标尺的属性
 const state = reactive({
@@ -67,10 +67,9 @@ const state = reactive({
   isShowReferLine: false, // 显示参考线
 });
 
-
 //标尺的宽高
-const rulerWidth=computed(()=>wapperRef.value?.offsetWidth-state.thick);
-const rulerHeight=computed(()=>wapperRef.value?.offsetHeight-state.thick)
+const rulerWidth = computed(() => wapperRef.value.offsetWidth - state.thick);
+const rulerHeight = computed(() => wapperRef.value.offsetHeight - state.thick);
 
 const shadow = computed(() => {
   return {
@@ -106,7 +105,8 @@ const handleScroll = () => {
   // 标尺开始的刻度
   const startX =
     (screensRect.left + state.thick - canvasRect.left) / store.canvas.scale;
-  const startY = (screensRect.top + state.thick - canvasRect.top) / store.canvas.scale;
+  const startY =
+    (screensRect.top + state.thick - canvasRect.top) / store.canvas.scale;
   state.startX = startX;
   state.startY = startY;
 };
@@ -129,8 +129,6 @@ const handleWheel = (e: {
     handleScroll();
   });
 };
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -141,8 +139,6 @@ const handleWheel = (e: {
   height: 92%;
   background-color: #ebebf1;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
-
-
 
   .wrapper {
     position: absolute;
@@ -162,7 +158,7 @@ const handleWheel = (e: {
     height: 100%;
     overflow: auto;
 
-      /* 设置滚动条的样式 */
+    /* 设置滚动条的样式 */
     &::-webkit-scrollbar {
       width: 12px;
       height: 12px;
@@ -181,7 +177,6 @@ const handleWheel = (e: {
       background: #d2d3d4;
       margin: 2px;
     }
-
   }
 
   .screen-container {
@@ -189,7 +184,6 @@ const handleWheel = (e: {
     width: 5000px;
     height: 3000px;
   }
-
 
   #canvas {
     position: absolute;
@@ -201,6 +195,5 @@ const handleWheel = (e: {
     background-size: 100% 100%;
     transform-origin: 50% 0;
   }
-
 }
 </style>
