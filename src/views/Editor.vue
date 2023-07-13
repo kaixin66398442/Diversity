@@ -3,7 +3,7 @@
     <Nav></Nav>
     <div id="bottom">
       <MaterialList></MaterialList>
-      <EditorContainer :state="state"></EditorContainer>
+      <EditorContainer></EditorContainer>
       <Operator></Operator>
     </div>
     <Control></Control>
@@ -15,24 +15,28 @@ import Nav from "@/components/nav/Nav.vue";
 import MaterialList from "@/components/material/MaterialList.vue";
 import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
-import { reactive } from "vue";
-import data from "@/data.json";
 import Control from "@/components/control/Control.vue";
-const state: any = reactive(data);
+import { reactive ,provide } from "vue";
+import jsonData from "@/data.json";
+import { Data } from "@/type/data";
+
+const data: Data = reactive(jsonData);
+
+//向子组件提供data
+provide('data',data);
+
 
 
 //鼠标滚轮事件
-const handlerWheel=(e:MouseEvent)=>{
+const handlerWheel = (e: MouseEvent) => {
   //判断是不是按下ctrl键,取消去除方法缩小网页的行为
-  if(e.ctrlKey){
+  if (e.ctrlKey) {
     e.preventDefault();
   }
-}
-
+};
 </script>
 
 <style scoped lang="scss">
-
 #bottom {
   flex: 1;
   width: 100%;

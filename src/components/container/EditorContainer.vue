@@ -30,25 +30,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, nextTick, watchEffect } from "vue";
+import { computed, ref, reactive, onMounted, nextTick, inject } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
 import "vue3-sketch-ruler/lib/style.css";
 import { useStore } from "@/store";
+import { Data } from "@/type/data";
 
 const store = useStore();
 
-const props: any = defineProps({
-  state: { type: Object },
-});
+//接收父组件传来的data
+const data: Data = inject("data")!;
 
-const containerStyles = computed(() => ({
-  width: props.state.container.width + "px",
-  height: props.state.container.height + "px",
-}));
-
-const rectWidth = 600;
-const rectHeight = 320;
+//rectWidth,rectHeight为画布宽高
+const rectWidth = computed<number>(() => data.container.width);
+const rectHeight = computed<number>(() => data.container.height);
 const screensRef: any = ref(null);
 const containerRef: any = ref(null);
 const wapperRef: any = ref(null);
@@ -71,19 +67,21 @@ const state = reactive({
 const rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
 const rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
+//背景阴影
 const shadow = computed(() => {
   return {
     x: 0,
     y: 0,
-    width: rectWidth,
-    height: rectHeight,
+    width: rectWidth.value,
+    height: rectHeight.value,
   };
 });
 
+//画布
 const canvasStyle = computed(() => {
   return {
-    width: rectWidth,
-    height: rectHeight,
+    width: `${rectWidth.value}px`,
+    height: `${rectHeight.value}px`,
     transform: `scale(${store.canvas.scale})`,
   };
 });
@@ -91,7 +89,9 @@ const canvasStyle = computed(() => {
 onMounted(() => {
   // 滚动居中
   screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 400;
+    containerRef.value.getBoundingClientRect().width / 2 - 480;
+  screensRef.value.scrollTop =
+    containerRef.value.getBoundingClientRect().height / 2 - 175;
 });
 
 const handleScroll = () => {
@@ -187,13 +187,11 @@ const handleWheel = (e: {
 
   #canvas {
     position: absolute;
-    top: 80px;
+    top: 50%;
     left: 50%;
-    width: 300px;
-    height: 210px;
     background-color: #fff;
     background-size: 100% 100%;
-    transform-origin: 50% 0;
+    transform-origin: 50% 50%;
   }
 }
 </style>

@@ -1,15 +1,15 @@
 {
     "container": {
-        "width": 550,
-        "height": 550
+        "width": 300,
+        "height": 210
     },
     "blocks": [{
             "top": 100,
             "left": 100,
             "zIndex": 1,
-            "key": "text",
+            "key": "div",
             "props": {
-                "text": "广东金融",
+                "text": "开始或结束",
                 "color": "#ff0000",
                 "size": "14px"
             }
@@ -18,19 +18,23 @@
             "top": 200,
             "left": 200,
             "zIndex": 1,
-            "key": "button",
+            "key": "div",
             "props": {
-                "text": "我的按钮",
-                "type": "primary",
-                "size": "default"
+                "text": "流程",
+                "color": "#ff0000",
+                "size": "14px"
             }
         },
         {
             "top": 300,
             "left": 300,
             "zIndex": 1,
-            "key": "input",
-            "props": {}
+            "key": "div",
+            "props": {
+                "text": "判定",
+                "color": "#ff0000",
+                "size": "14px"
+            }
         }
     ]
 }
