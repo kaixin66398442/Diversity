@@ -24,6 +24,7 @@ import {
   CircleNode,
 } from "@/hook/flowchart";
 
+import {ElInput} from 'element-plus'
 function createCanvasConfig(): CreateCanvasConfigResult {
   const componentList: Component[] = [];
   const componentMap: ComponentMap = {};
