@@ -19,11 +19,16 @@ import Control from "@/components/control/Control.vue";
 import { reactive ,provide } from "vue";
 import jsonData from "@/data.json";
 import { Data } from "@/type/data";
+import { registerConfig as config } from "@/hook/canvas";
 
 const data: Data = reactive(jsonData);
 
 //向子组件提供data
 provide('data',data);
+
+
+//向子组件提供物料config
+provide('config',config);
 
 
 

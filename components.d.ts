@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BasicFlowchartShapeItem: typeof import('./src/components/material/BasicFlowchartShapeItem.vue')['default']
     Control: typeof import('./src/components/control/Control.vue')['default']
     EditorContainer: typeof import('./src/components/container/EditorContainer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -23,7 +24,9 @@ declare module '@vue/runtime-core' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElTree: typeof import('element-plus/es')['ElTree']
+    MateriaListItem: typeof import('./src/components/material/MateriaListItem.vue')['default']
     MaterialList: typeof import('./src/components/material/MaterialList.vue')['default']
+    MaterialListItem: typeof import('./src/components/material/MaterialListItem.vue')['default']
     Nav: typeof import('./src/components/nav/Nav.vue')['default']
     Operator: typeof import('./src/components/operator/Operator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

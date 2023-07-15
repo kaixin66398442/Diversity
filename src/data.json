@@ -7,7 +7,7 @@
             "top": 100,
             "left": 100,
             "zIndex": 1,
-            "key": "div",
+            "key": "input",
             "props": {
                 "text": "开始或结束",
                 "color": "#ff0000",
@@ -18,7 +18,7 @@
             "top": 200,
             "left": 200,
             "zIndex": 1,
-            "key": "div",
+            "key": "input",
             "props": {
                 "text": "流程",
                 "color": "#ff0000",
@@ -29,7 +29,7 @@
             "top": 300,
             "left": 300,
             "zIndex": 1,
-            "key": "div",
+            "key": "input",
             "props": {
                 "text": "判定",
                 "color": "#ff0000",
