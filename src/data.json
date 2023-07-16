@@ -1,13 +1,13 @@
 {
     "container": {
-        "width": 300,
-        "height": 210
+        "width": 750,
+        "height": 525
     },
     "blocks": [{
             "top": 100,
             "left": 100,
             "zIndex": 1,
-            "key": "input",
+            "key": "start-or-end",
             "props": {
                 "text": "开始或结束",
                 "color": "#ff0000",
@@ -18,7 +18,7 @@
             "top": 200,
             "left": 200,
             "zIndex": 1,
-            "key": "input",
+            "key": "process",
             "props": {
                 "text": "流程",
                 "color": "#ff0000",
@@ -29,7 +29,7 @@
             "top": 300,
             "left": 300,
             "zIndex": 1,
-            "key": "input",
+            "key": "decision",
             "props": {
                 "text": "判定",
                 "color": "#ff0000",

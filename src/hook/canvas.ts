@@ -24,7 +24,7 @@ import {
   CircleNode,
 } from "@/hook/flowchart";
 
-import {ElInput} from 'element-plus'
+import { ElInput } from "element-plus";
 function createCanvasConfig(): CreateCanvasConfigResult {
   const componentList: Component[] = [];
   const componentMap: ComponentMap = {};
@@ -71,7 +71,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const processNode = new ProcessNode(context);
-          processNode.draw(0, 0, "Process");
+          processNode.draw(0, 0, 100, 50, "Process");
 
           processRef.value.appendChild(canvas);
         };
@@ -87,7 +87,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+        <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -103,14 +105,40 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "流程");
+
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 50;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const processNode = new ProcessNode(context);
+          processNode.draw(0, 0, 100, 50, "Process");
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "process",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),
@@ -144,7 +172,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const startNode = new StartNode(context);
-          startNode.draw(0, 0, "Start");
+          startNode.draw(0, 0, 100, 50, 32, "Start");
 
           startRef.value.appendChild(canvas);
         };
@@ -160,7 +188,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+        <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -176,14 +206,40 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "开始或结束");
+
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 50;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const startNode = new StartNode(context);
+          startNode.draw(0, 0, 100, 50, 32, "start or end");
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "start-or-end",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),
@@ -217,7 +273,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const decisionNode = new DecisionNode(context);
-          decisionNode.draw(0, 0, "decision", [""]);
+          decisionNode.draw(0, 0, 100, 50, "decision", [""]);
 
           decisionRef.value.appendChild(canvas);
         };
@@ -233,7 +289,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+         <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -249,14 +307,40 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "判定");
+
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 50;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const decisionNode = new DecisionNode(context);
+          decisionNode.draw(0, 0, 100, 50, "decision", [""]);
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "decision",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),
@@ -290,7 +374,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const manualNode = new ManualOperationNode(context);
-          manualNode.draw(0, 0, "option");
+          manualNode.draw(0, 0, 100, 50, "option");
 
           manualRef.value.appendChild(canvas);
         };
@@ -306,7 +390,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+         <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -322,14 +408,39 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "手动操作");
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 50;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const manualNode = new ManualOperationNode(context);
+          manualNode.draw(0, 0, 100, 50, "option");
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "manual-opation",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),
@@ -363,7 +474,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const arcProcessNode = new ArcProcessNode(context);
-          arcProcessNode.draw(0, 5, "arcProcess");
+          arcProcessNode.draw(0, 5, 100, 50, 10, "arcProcess");
 
           arcProcessRef.value.appendChild(canvas);
         };
@@ -379,7 +490,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+         <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -395,14 +508,39 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "圆弧流程");
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 60;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const arcProcessNode = new ArcProcessNode(context);
+          arcProcessNode.draw(0, 5, 100, 50, 10, "arcProcess");
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "arc-process",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),
@@ -436,7 +574,7 @@ registerConfig.register({
 
           // 创建流程节点实例
           const circleNode = new CircleNode(context);
-          circleNode.draw(20, 0, "circle");
+          circleNode.draw(20, 0, 30, "circle");
 
           circleRef.value.appendChild(canvas);
         };
@@ -452,7 +590,9 @@ registerConfig.register({
     }),
   render: (prop) =>
     defineComponent({
-      template: `<div><el-input :style="blockStyle">{{ RenderText }}</el-input></div>`,
+      template: `<div class="blockContent" ref="blockContentRef">
+         <el-input v-if="false" :style="blockStyle">{{ RenderText }}</el-input>
+      </div>`,
 
       components: {
         ElInput,
@@ -468,14 +608,39 @@ registerConfig.register({
         });
 
         const RenderText = computed(() => block.text || "开始");
+        //获取元素
+        const blockContentRef: any = ref(null);
+
+        //添加子元素
+        const addChildElement = () => {
+          // 创建 Canvas 元素
+          const canvas = document.createElement("canvas");
+          canvas.width = 60;
+          canvas.height = 60;
+
+          // 创建 Canvas 上下文对象
+          const context = createCanvasContext(canvas);
+
+          // 创建流程节点实例
+          const circleNode = new CircleNode(context);
+          circleNode.draw(0, 0, 30, "circle");
+
+          blockContentRef.value.appendChild(canvas);
+        };
+
+        onMounted(() => {
+          addChildElement();
+        });
+
         return {
           block,
           blockStyle,
           RenderText,
+          blockContentRef,
         };
       },
     }),
-  key: "input",
+  key: "start",
   props: {
     text: createInputProp("文本内容"),
     color: createColorProp("字体颜色"),

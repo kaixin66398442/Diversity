@@ -38,7 +38,7 @@ const options = [
     label: "适应宽度",
   },
   {
-    value: 62,
+    value: 68,
     label: "适应页面",
   },
   {
@@ -77,12 +77,12 @@ const options = [
 
 //监听value变化，改变store.canvas.scale
 watch(value, (newval) => {
-  store.canvas.scale = newval / 27.2;
+  store.canvas.scale = newval / 68;
 });
 
 //监听store.canvas.scale变化，改变value
 watchEffect(() => {
-  value.value = Math.round(store.canvas.scale * 27.2);
+  value.value = Math.round(store.canvas.scale * 68);
 });
 </script>
 

@@ -39,6 +39,7 @@ const handlerWheel = (e: MouseEvent) => {
     e.preventDefault();
   }
 };
+
 </script>
 
 <style scoped lang="scss">

@@ -22,7 +22,9 @@
         @scroll="handleScroll"
       >
         <div ref="containerRef" class="screen-container">
-          <div id="canvas" :style="canvasStyle" />
+          <div id="canvas" ref="canvasRef" :style="canvasStyle">
+            <CanvasList></CanvasList>
+          </div>
         </div>
       </div>
     </div>
@@ -30,7 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, nextTick, inject } from "vue";
+import {
+  computed,
+  ref,
+  reactive,
+  onMounted,
+  nextTick,
+  inject,
+  watch,
+} from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
 import "vue3-sketch-ruler/lib/style.css";
@@ -48,15 +58,18 @@ const rectHeight = computed<number>(() => data.container.height);
 const screensRef: any = ref(null);
 const containerRef: any = ref(null);
 const wapperRef: any = ref(null);
+const canvasRef: any = ref(null);
+
+//将canvasRef的值复制给store的canvas,传给其他组件
+store.canvas.canvasRef = computed(() => canvasRef.value);
 
 //标尺的属性
 const state = reactive({
-  // scale: 2.5,
   startX: 0,
   startY: 0,
   lines: {
-    h: [433, 588],
-    v: [33, 143],
+    h: [0, 750],
+    v: [0, 525],
   },
   thick: 20,
   isShowRuler: true, // 显示标尺
@@ -89,9 +102,9 @@ const canvasStyle = computed(() => {
 onMounted(() => {
   // 滚动居中
   screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 480;
+    containerRef.value.getBoundingClientRect().width / 2 - 260;
   screensRef.value.scrollTop =
-    containerRef.value.getBoundingClientRect().height / 2 - 175;
+    containerRef.value.getBoundingClientRect().height / 2 - 20;
 });
 
 const handleScroll = () => {

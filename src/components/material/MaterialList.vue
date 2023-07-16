@@ -37,13 +37,16 @@
 
     <!-- 物料内容区域 -->
 
-    <el-tree :data="data" :props="defaultProps" class="custom-tree">
+    <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
       <template #default="{ node, data }">
         <div v-if="data.component" id="basic-flowchart-shapes">
           <MaterialListItem
             v-for="(item, index) in data.componentList"
             :key="index"
             :item="item"
+            draggable="true"
+            @dragstart="dragstart(item)"
+            @dragend="dragend"
           ></MaterialListItem>
         </div>
         <span v-else>{{ node.label }}</span>
@@ -56,11 +59,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onMounted } from "vue";
+import { ref, inject, onMounted, watch } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
 import { CreateCanvasConfigResult, Component } from "@/type/canvas";
 import MaterialListItem from "@/components/material/MaterialListItem.vue";
+import { events } from "@/hook/events";
+import { Data } from "@/type/data";
+
+//引入data
+const data: Data = inject("data")!;
 
 const store = useStore();
 
@@ -75,9 +83,61 @@ const config: CreateCanvasConfigResult = inject("config")!;
 //获取当前所有的物料列表
 const componentList: Component[] = config.componentList;
 
-// onMounted(()=>{
-//   console.log(componentList)
-// })
+
+//被拖拽的物料
+let currentComponent: any = null;
+
+//进入元素中，添加一个移动的标识
+const dragenter = (e: any) => {
+  e.dataTransfer.dropEffect = "move";
+};
+
+//在目标元素经过，必须阻止默认行为，否则不能触发drop
+const dragover = (e: any) => {
+  e.preventDefault();
+};
+
+//离开元素的时候，需要增加一个禁用标识
+const dragleave = (e: any) => {
+  e.dataTransfer.dropEffect = "none";
+};
+
+//松手的时候，根据拖拽的组件，添加一个组件
+const drop = (e: any) => {
+  //拿到当前的物料，将其添加到home组件的data里面
+  const current = {
+    top: e.offsetY,
+    left: e.offsetX,
+    zIndex: 1,
+    key: currentComponent.key,
+    alignCenter: true, //希望拖拽松手时，block居中
+    props: {},
+  };
+  //调用store.updateData方法，将当前拖拽的物料存到data里面
+  store.updateData(data, current);
+};
+
+const dragstart = (e: any) => {
+  //当前拖拽的物料
+  currentComponent = e;
+  //进去画布后的操作
+  store.canvas.canvasRef.addEventListener("dragenter", dragenter);
+  store.canvas.canvasRef.addEventListener("dragover", dragover);
+  store.canvas.canvasRef.addEventListener("dragleave", dragleave);
+  store.canvas.canvasRef.addEventListener("drop", drop);
+  //发布start
+  events.emit("start");
+};
+
+const dragend = () => {
+  //离开之后移除事件
+  store.canvas.canvasRef.removeEventListener("dragenter", dragenter);
+  store.canvas.canvasRef.removeEventListener("dragover", dragover);
+  store.canvas.canvasRef.removeEventListener("dragleave", dragleave);
+  store.canvas.canvasRef.removeEventListener("drop", drop);
+  //发布end
+  events.emit("end");
+};
 
 //elementplus的物料二级菜单，后续需要改
 interface Tree {
@@ -87,7 +147,7 @@ interface Tree {
   componentList?: Component[];
 }
 
-const data: Tree[] = [
+const treeData: Tree[] = [
   {
     label: "我的收藏",
     children: [

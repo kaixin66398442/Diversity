@@ -3,10 +3,17 @@ export class StartNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制开始节点
-  draw(x: number, y: number, label: string) {
-    const width = 100;
-    const height = 50;
-    const borderRadius = 32;
+  draw(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    borderRadius: number,
+    label: string
+  ) {
+    // const width = 100;
+    // const height = 50;
+    // const borderRadius = 32;
 
     // 绘制圆边矩形
     this.canvasContext.fillStyle = "lightyellow";
@@ -52,9 +59,16 @@ export class DecisionNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制判定节点
-  draw(x: number, y: number, label: string, options: string[]) {
-    const width = 100;
-    const height = 50;
+  draw(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    label: string,
+    options: string[]
+  ) {
+    // const width = 100;
+    // const height = 50;
 
     // 绘制菱形
     this.canvasContext.fillStyle = "lightyellow";
@@ -86,9 +100,9 @@ export class ProcessNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制流程节点
-  draw(x: number, y: number, label: string) {
-    const width = 100;
-    const height = 50;
+  draw(x: number, y: number, width: number, height: number, label: string) {
+    // const width = 100;
+    // const height = 50;
 
     // 绘制矩形
     this.canvasContext.fillStyle = "lightyellow";
@@ -108,9 +122,9 @@ export class ManualOperationNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制流程节点
-  draw(x: number, y: number, label: string) {
-    const width = 100;
-    const height = 50;
+  draw(x: number, y: number, width: number, height: number, label: string) {
+    // const width = 100;
+    // const height = 50;
 
     // 绘制梯形
     this.canvasContext.fillStyle = "lightyellow";
@@ -137,20 +151,45 @@ export class ArcProcessNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制圆弧矩形流程节点
-  draw(x: number, y: number, label: string) {
-    const width = 100;
-    const height = 50;
-    const cornerRadius = 10;
+  draw(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    cornerRadius: number,
+    label: string
+  ) {
+    // const width = 100;
+    // const height = 50;
+    // const cornerRadius = 10;
 
     // 绘制路径
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(x + cornerRadius, y);
     this.canvasContext.lineTo(x + width - cornerRadius, y);
-    this.canvasContext.arcTo(x + width, y, x + width, y + cornerRadius, cornerRadius);
+    this.canvasContext.arcTo(
+      x + width,
+      y,
+      x + width,
+      y + cornerRadius,
+      cornerRadius
+    );
     this.canvasContext.lineTo(x + width, y + height - cornerRadius);
-    this.canvasContext.arcTo(x + width, y + height, x + width - cornerRadius, y + height, cornerRadius);
+    this.canvasContext.arcTo(
+      x + width,
+      y + height,
+      x + width - cornerRadius,
+      y + height,
+      cornerRadius
+    );
     this.canvasContext.lineTo(x + cornerRadius, y + height);
-    this.canvasContext.arcTo(x, y + height, x, y + height - cornerRadius, cornerRadius);
+    this.canvasContext.arcTo(
+      x,
+      y + height,
+      x,
+      y + height - cornerRadius,
+      cornerRadius
+    );
     this.canvasContext.lineTo(x, y + cornerRadius);
     this.canvasContext.arcTo(x, y, x + cornerRadius, y, cornerRadius);
     this.canvasContext.closePath();
@@ -176,8 +215,8 @@ export class CircleNode {
   constructor(private canvasContext: CanvasRenderingContext2D) {}
 
   // 绘制圆形节点
-  draw(x: number, y: number, label: string) {
-    const radius = 30; // 圆形的半径
+  draw(x: number, y: number, radius: number, label: string) {
+    // const radius = 30; // 圆形的半径
 
     // 绘制圆形
     this.canvasContext.beginPath();

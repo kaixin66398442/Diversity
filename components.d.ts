@@ -10,6 +10,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BasicFlowchartShapeItem: typeof import('./src/components/material/BasicFlowchartShapeItem.vue')['default']
+    CanvasList: typeof import('./src/components/canvas/CanvasList.vue')['default']
+    CanvasListItem: typeof import('./src/components/canvas/CanvasListItem.vue')['default']
     Control: typeof import('./src/components/control/Control.vue')['default']
     EditorContainer: typeof import('./src/components/container/EditorContainer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
