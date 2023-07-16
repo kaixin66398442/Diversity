@@ -7,9 +7,14 @@ interface State {
   };
 
   //物料
-  material:{
-    isShowMaterial:boolean;
-  }
+  material: {
+    isShowMaterial: boolean;
+  };
+
+  //物料
+  operator: {
+    isShowOperator: boolean;
+  };
 }
 
 // useStore 可以是 useUser、useCart 之类的任何东西
@@ -20,12 +25,13 @@ export const useStore = defineStore("main", {
     canvas: {
       scale: 2.5, //画布适配参数
     },
-    material:{
-      isShowMaterial:true,
-    }
+    material: {
+      isShowMaterial: true,
+    },
+    operator: {
+      isShowOperator: false,
+    },
   }),
-  actions: {
-    
-  },
+  actions: {},
   getters: {},
 });

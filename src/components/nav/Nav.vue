@@ -57,7 +57,8 @@
     </div>
     <!-- 下层编辑区 -->
     <div class="tab-edit">
-      <nav>
+      <!-- 左侧编辑区 -->
+      <div class="left">
         <!-- 右箭头 -->
         <SvgIcon
           name="arrow-right"
@@ -120,7 +121,27 @@
 
         <!-- 文本颜色 -->
         <SvgIcon name="text-color" width="22" height="22" class="svg"></SvgIcon>
-      </nav>
+      </div>
+      <!-- 右侧编辑区 -->
+      <div class="right">
+        <!-- 收缩展开 -->
+        <SvgIcon
+          name="folded"
+          width="22"
+          height="22"
+          class="svg"
+          v-if="store.operator.isShowOperator"
+          @click="store.operator.isShowOperator = false"
+        ></SvgIcon>
+        <SvgIcon
+          name="unfolded"
+          width="22"
+          height="22"
+          class="svg"
+          v-if="!store.operator.isShowOperator"
+          @click="store.operator.isShowOperator = true"
+        ></SvgIcon>
+      </div>
     </div>
   </div>
 </template>
@@ -350,19 +371,32 @@ const fontSizeOptions = [
 
   // 下层编辑区
   .tab-edit {
-    height: 45px;
     display: flex;
+    justify-content: space-between;
+    height: 45px;
     background-color: #fff;
 
-    nav {
+    // 左侧编辑区
+    .left {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding-left: 20px;
     }
+    // 右侧编辑区
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 5px;
+    }
 
     .svg {
-      padding: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
       border-radius: 6px;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -376,14 +410,12 @@ const fontSizeOptions = [
     // 字体类型
     .font-type-select {
       width: 120px;
-      height: 24px;
       margin: 0 6px;
     }
 
     //字体大小
     .font-size-select {
       width: 60px;
-      height: 24px;
       margin: 0 6px;
     }
   }

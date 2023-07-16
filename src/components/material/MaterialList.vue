@@ -36,8 +36,7 @@
     </div>
 
     <!-- 物料内容区域 -->
-
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+    <!-- <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" /> -->
 
     <!-- 拖拽线条 -->
     <div class="dragline" @mousedown="mouseDown"></div>
@@ -56,66 +55,64 @@ const newWidth = ref(250);
 //调用拖拽改变宽度的hook
 const { mouseDown } = useDragChange(newWidth, 250, 400);
 
-
-
 //elementplus的物料二级菜单，后续需要改
-interface Tree {
-  label: string;
-  children?: Tree[];
-}
+// interface Tree {
+//   label: string;
+//   children?: Tree[];
+// }
 
-const handleNodeClick = (data: Tree) => {
-  console.log(data);
-};
+// const handleNodeClick = (data: Tree) => {
+//   console.log(data);
+// };
 
-const data: Tree[] = [
-  {
-    label: "我的收藏",
-    children: [
-      {
-        label: "Level two 1-1",
-      },
-    ],
-  },
-  {
-    label: "文本",
-    children: [
-      {
-        label: "Level two 2-1",
-      },
-      {
-        label: "Level two 2-2",
-      },
-    ],
-  },
-  {
-    label: "基本绘图形状",
-    children: [
-      {
-        label: "Level two 3-1",
-      },
-      {
-        label: "Level two 3-2",
-      },
-    ],
-  },
-  {
-    label: "基本基本流程图形状",
-    children: [
-      {
-        label: "Level two 3-1",
-      },
-      {
-        label: "Level two 3-2",
-      },
-    ],
-  },
-];
+// const data: Tree[] = [
+//   {
+//     label: "我的收藏",
+//     children: [
+//       {
+//         label: "Level two 1-1",
+//       },
+//     ],
+//   },
+//   {
+//     label: "文本",
+//     children: [
+//       {
+//         label: "Level two 2-1",
+//       },
+//       {
+//         label: "Level two 2-2",
+//       },
+//     ],
+//   },
+//   {
+//     label: "基本绘图形状",
+//     children: [
+//       {
+//         label: "Level two 3-1",
+//       },
+//       {
+//         label: "Level two 3-2",
+//       },
+//     ],
+//   },
+//   {
+//     label: "基本基本流程图形状",
+//     children: [
+//       {
+//         label: "Level two 3-1",
+//       },
+//       {
+//         label: "Level two 3-2",
+//       },
+//     ],
+//   },
+// ];
 
-const defaultProps = {
-  children: "children",
-  label: "label",
-};
+// const defaultProps = {
+//   children: "children",
+//   label: "label",
+// };
 </script>
 
 <style lang="scss" scoped>

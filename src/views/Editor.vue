@@ -20,19 +20,16 @@ import data from "@/data.json";
 import Control from "@/components/control/Control.vue";
 const state: any = reactive(data);
 
-
 //鼠标滚轮事件
-const handlerWheel=(e:MouseEvent)=>{
+const handlerWheel = (e: MouseEvent) => {
   //判断是不是按下ctrl键,取消去除方法缩小网页的行为
-  if(e.ctrlKey){
+  if (e.ctrlKey) {
     e.preventDefault();
   }
-}
-
+};
 </script>
 
 <style scoped lang="scss">
-
 #bottom {
   flex: 1;
   width: 100%;
