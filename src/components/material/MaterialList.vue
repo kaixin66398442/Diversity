@@ -36,7 +36,22 @@
     </div>
 
     <!-- 物料内容区域 -->
-    <!-- <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" /> -->
+
+    <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
+      <template #default="{ node, data }">
+        <div v-if="data.component" id="basic-flowchart-shapes">
+          <MaterialListItem
+            v-for="(item, index) in data.componentList"
+            :key="index"
+            :item="item"
+            draggable="true"
+            @dragstart="dragstart(item)"
+            @dragend="dragend"
+          ></MaterialListItem>
+        </div>
+        <span v-else>{{ node.label }}</span>
+      </template>
+    </el-tree>
 
     <!-- 拖拽线条 -->
     <div class="dragline" @mousedown="mouseDown"></div>
@@ -44,75 +59,142 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, inject, onMounted, watch } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
+import { CreateCanvasConfigResult, Component } from "@/type/canvas";
+import MaterialListItem from "@/components/material/MaterialListItem.vue";
+import { events } from "@/hook/events";
+import { Data } from "@/type/data";
+
+//引入data
+const data: Data = inject("data")!;
 
 const store = useStore();
 
 const newWidth = ref(250);
 
 //调用拖拽改变宽度的hook
-const { mouseDown } = useDragChange(newWidth, 250, 400);
+const { mouseDown } = useDragChange(newWidth, 200, 400);
+
+//物料注册
+const config: CreateCanvasConfigResult = inject("config")!;
+
+//获取当前所有的物料列表
+const componentList: Component[] = config.componentList;
+
+
+//被拖拽的物料
+let currentComponent: any = null;
+
+//进入元素中，添加一个移动的标识
+const dragenter = (e: any) => {
+  e.dataTransfer.dropEffect = "move";
+};
+
+//在目标元素经过，必须阻止默认行为，否则不能触发drop
+const dragover = (e: any) => {
+  e.preventDefault();
+};
+
+//离开元素的时候，需要增加一个禁用标识
+const dragleave = (e: any) => {
+  e.dataTransfer.dropEffect = "none";
+};
+
+//松手的时候，根据拖拽的组件，添加一个组件
+const drop = (e: any) => {
+  //拿到当前的物料，将其添加到home组件的data里面
+  const current = {
+    top: e.offsetY,
+    left: e.offsetX,
+    zIndex: 1,
+    key: currentComponent.key,
+    alignCenter: true, //希望拖拽松手时，block居中
+    props: {},
+  };
+  //调用store.updateData方法，将当前拖拽的物料存到data里面
+  store.updateData(data, current);
+};
+
+const dragstart = (e: any) => {
+  //当前拖拽的物料
+  currentComponent = e;
+  //进去画布后的操作
+  store.canvas.canvasRef.addEventListener("dragenter", dragenter);
+  store.canvas.canvasRef.addEventListener("dragover", dragover);
+  store.canvas.canvasRef.addEventListener("dragleave", dragleave);
+  store.canvas.canvasRef.addEventListener("drop", drop);
+  //发布start
+  events.emit("start");
+};
+
+const dragend = () => {
+  //离开之后移除事件
+  store.canvas.canvasRef.removeEventListener("dragenter", dragenter);
+  store.canvas.canvasRef.removeEventListener("dragover", dragover);
+  store.canvas.canvasRef.removeEventListener("dragleave", dragleave);
+  store.canvas.canvasRef.removeEventListener("drop", drop);
+  //发布end
+  events.emit("end");
+};
 
 //elementplus的物料二级菜单，后续需要改
-// interface Tree {
-//   label: string;
-//   children?: Tree[];
-// }
+interface Tree {
+  label?: string;
+  children?: Tree[];
+  component?: boolean;
+  componentList?: Component[];
+}
 
-// const handleNodeClick = (data: Tree) => {
-//   console.log(data);
-// };
+const treeData: Tree[] = [
+  {
+    label: "我的收藏",
+    children: [
+      {
+        label: "子节点1",
+      },
+    ],
+  },
+  {
+    label: "文本",
+    children: [
+      {
+        label: "Level two 2-1",
+      },
+      {
+        label: "Level two 2-2",
+      },
+    ],
+  },
+  {
+    label: "基本绘图形状",
+    children: [
+      {
+        label: "Level two 3-1",
+      },
+      {
+        label: "Level two 3-2",
+      },
+    ],
+  },
+  {
+    label: "基本流程图形状",
+    children: [
+      {
+        component: true,
+        componentList: componentList,
+      },
+    ],
+  },
+];
 
-// const data: Tree[] = [
-//   {
-//     label: "我的收藏",
-//     children: [
-//       {
-//         label: "Level two 1-1",
-//       },
-//     ],
-//   },
-//   {
-//     label: "文本",
-//     children: [
-//       {
-//         label: "Level two 2-1",
-//       },
-//       {
-//         label: "Level two 2-2",
-//       },
-//     ],
-//   },
-//   {
-//     label: "基本绘图形状",
-//     children: [
-//       {
-//         label: "Level two 3-1",
-//       },
-//       {
-//         label: "Level two 3-2",
-//       },
-//     ],
-//   },
-//   {
-//     label: "基本基本流程图形状",
-//     children: [
-//       {
-//         label: "Level two 3-1",
-//       },
-//       {
-//         label: "Level two 3-2",
-//       },
-//     ],
-//   },
-// ];
-
-// const defaultProps = {
-//   children: "children",
-//   label: "label",
-// };
+const defaultProps = {
+  children: "children",
+  label: "label",
+  component: "component",
+  componentList: "componentList",
+};
 </script>
 
 <style lang="scss" scoped>
@@ -182,6 +264,29 @@ const { mouseDown } = useDragChange(newWidth, 250, 400);
         to {
           top: 13px;
         }
+      }
+    }
+  }
+
+  .custom-tree {
+    width: 100%;
+    height: 100%;
+
+    :deep(.el-tree-node__content) {
+      width: 100%;
+      height: auto;
+      padding-left: 0 !important;
+
+      .el-icon.el-tree-node__expand-icon.is-leaf {
+        display: none;
+      }
+
+      #basic-flowchart-shapes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: space-evenly;
+        width: 100%;
       }
     }
   }

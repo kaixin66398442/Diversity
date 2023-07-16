@@ -22,7 +22,9 @@
         @scroll="handleScroll"
       >
         <div ref="containerRef" class="screen-container">
-          <div id="canvas" :style="canvasStyle" />
+          <div id="canvas" ref="canvasRef" :style="canvasStyle">
+            <CanvasList></CanvasList>
+          </div>
         </div>
       </div>
     </div>
@@ -30,37 +32,44 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, nextTick, watchEffect } from "vue";
+import {
+  computed,
+  ref,
+  reactive,
+  onMounted,
+  nextTick,
+  inject,
+  watch,
+} from "vue";
 
-import SketchRule from "vue3-sketch-ruler";
+import { SketchRule } from "vue3-sketch-ruler";
 import "vue3-sketch-ruler/lib/style.css";
 import { useStore } from "@/store";
+import { Data } from "@/type/data";
 
 const store = useStore();
 
-const props: any = defineProps({
-  state: { type: Object },
-});
+//接收父组件传来的data
+const data: Data = inject("data")!;
 
-const containerStyles = computed(() => ({
-  width: props.state.container.width + "px",
-  height: props.state.container.height + "px",
-}));
+//rectWidth,rectHeight为画布宽高
+const rectWidth = computed<number>(() => data.container.width);
+const rectHeight = computed<number>(() => data.container.height);
+const screensRef: any = ref(null);
+const containerRef: any = ref(null);
+const wapperRef: any = ref(null);
+const canvasRef: any = ref(null);
 
-const rectWidth = 600;
-const rectHeight = 320;
-const screensRef = ref(null);
-const containerRef = ref(null);
-const wapperRef = ref(null);
+//将canvasRef的值复制给store的canvas,传给其他组件
+store.canvas.canvasRef = computed(() => canvasRef.value);
 
 //标尺的属性
 const state = reactive({
-  // scale: 2.5,
   startX: 0,
   startY: 0,
   lines: {
-    h: [433, 588],
-    v: [33, 143],
+    h: [0, 750],
+    v: [0, 525],
   },
   thick: 20,
   isShowRuler: true, // 显示标尺
@@ -71,19 +80,21 @@ const state = reactive({
 const rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
 const rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
+//背景阴影
 const shadow = computed(() => {
   return {
     x: 0,
     y: 0,
-    width: rectWidth,
-    height: rectHeight,
+    width: rectWidth.value,
+    height: rectHeight.value,
   };
 });
 
+//画布
 const canvasStyle = computed(() => {
   return {
-    width: rectWidth,
-    height: rectHeight,
+    width: `${rectWidth.value}px`,
+    height: `${rectHeight.value}px`,
     transform: `scale(${store.canvas.scale})`,
   };
 });
@@ -91,7 +102,9 @@ const canvasStyle = computed(() => {
 onMounted(() => {
   // 滚动居中
   screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 400;
+    containerRef.value.getBoundingClientRect().width / 2 - 260;
+  screensRef.value.scrollTop =
+    containerRef.value.getBoundingClientRect().height / 2 - 20;
 });
 
 const handleScroll = () => {
@@ -187,13 +200,11 @@ const handleWheel = (e: {
 
   #canvas {
     position: absolute;
-    top: 80px;
+    top: 50%;
     left: 50%;
-    width: 300px;
-    height: 210px;
     background-color: #fff;
     background-size: 100% 100%;
-    transform-origin: 50% 0;
+    transform-origin: 50% 50%;
   }
 }
 </style>

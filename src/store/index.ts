@@ -1,9 +1,13 @@
+import { Data, Block } from "@/type/data";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 interface State {
   //画布
   canvas: {
-    scale: number;
+    scale: number; //画布适配
+    canvasRef: any; //画布dom
+    isPreview: boolean; //是否预览
   };
 
   //物料
@@ -11,7 +15,7 @@ interface State {
     isShowMaterial: boolean;
   };
 
-  //物料
+  //操作区
   operator: {
     isShowOperator: boolean;
   };
@@ -23,7 +27,9 @@ export const useStore = defineStore("main", {
   // 推荐使用 完整类型推断的箭头函数
   state: (): State => ({
     canvas: {
-      scale: 2.5, //画布适配参数
+      scale: 1, //画布适配参数
+      canvasRef: ref(null), ////画布dom
+      isPreview: false, //是否预览
     },
     material: {
       isShowMaterial: true,
@@ -32,6 +38,11 @@ export const useStore = defineStore("main", {
       isShowOperator: false,
     },
   }),
-  actions: {},
+  actions: {
+    //更新data数据
+    updateData: (data: Data, obj: Block) => {
+      data.blocks.push(obj);
+    },
+  },
   getters: {},
 });

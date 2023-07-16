@@ -3,7 +3,7 @@
     <Nav></Nav>
     <div id="bottom">
       <MaterialList></MaterialList>
-      <EditorContainer :state="state"></EditorContainer>
+      <EditorContainer></EditorContainer>
       <Operator></Operator>
     </div>
     <Control></Control>
@@ -15,10 +15,21 @@ import Nav from "@/components/nav/Nav.vue";
 import MaterialList from "@/components/material/MaterialList.vue";
 import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
-import { reactive } from "vue";
-import data from "@/data.json";
 import Control from "@/components/control/Control.vue";
-const state: any = reactive(data);
+import { reactive ,provide } from "vue";
+import jsonData from "@/data.json";
+import { Data } from "@/type/data";
+import { registerConfig as config } from "@/hook/canvas";
+
+const data: Data = reactive(jsonData);
+
+//向子组件提供data
+provide('data',data);
+
+
+//向子组件提供物料config
+provide('config',config);
+
 
 //鼠标滚轮事件
 const handlerWheel = (e: MouseEvent) => {
