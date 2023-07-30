@@ -144,7 +144,7 @@ export const useCreateBlock = function (
       watch(
         () => state.RenderText,
         (newval) => {
-          updateChildElement(newval);
+          updateChildElement(newval!);
         }
       );
 
