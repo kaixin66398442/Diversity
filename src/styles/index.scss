@@ -3,3 +3,19 @@
 * {
     box-sizing: border-box;
 }
+
+#dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 250px;
+    background-color: #ebe4e4;
+    border: 1px dotted #9f9f9f;
+    z-index: 2;
+    button {
+        margin: 2px;
+    }
+}

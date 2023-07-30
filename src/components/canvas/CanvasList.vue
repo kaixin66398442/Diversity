@@ -5,6 +5,7 @@
       :index="index"
       :block="block"
       @mousedown="blockMousedown($event, block, index)"
+      @contextmenu="onContextMenuBlock($event)"
     ></CanvasListItem>
 
     <!-- 纵向参考线 -->
@@ -23,11 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
-import { Data } from "@/type/data";
+import { inject, watch, onMounted, watchEffect } from "vue";
+import { Data, Block } from "@/type/data";
 import { useStore } from "@/store";
 import { useFocus } from "@/hook/useFocus";
 import { useDrag } from "@/hook/useDrag";
+import { useCommand } from "@/hook/useCommand";
+import { createComponent } from "@/hook/createVNode";
 
 const store = useStore();
 
@@ -41,7 +44,22 @@ const { focusData, lastSelectBlock, blockMousedown, containerMousedown } =
 //选中拖拽画布的block
 const { mouseDown, markLine } = useDrag(focusData, lastSelectBlock, data);
 
-//
+//按钮操作
+const { commands } = useCommand(data, focusData);
+
+//右键点击出现菜单栏
+const onContextMenuBlock = (e: MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  //调用函数，动态创建组件
+  createComponent(e, commands, store.canvas.canvasRef);
+};
+
+//监听lastSelectBlock,更新store.lastSelectBlock
+watch(lastSelectBlock, (newval) => {
+  store.canvas.lastSelectBlock = newval;
+});
 </script>
 
 <style scoped lang="scss">
@@ -57,6 +75,7 @@ const { mouseDown, markLine } = useDrag(focusData, lastSelectBlock, data);
     bottom: 0;
     border-left: 2px dashed rgb(157, 224, 240);
   }
+
   // 移动top
   .line-y {
     position: absolute;
@@ -64,5 +83,22 @@ const { mouseDown, markLine } = useDrag(focusData, lastSelectBlock, data);
     right: 0;
     border-top: 2px dashed rgb(157, 224, 240);
   }
+
+  // #dropdown {
+  //   position: absolute;
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   width: 70px;
+  //   height: 250px;
+  //   background-color: #ebe4e4;
+  //   border: 1px dotted #9f9f9f;
+  //   z-index: 2;
+
+  //   button {
+  //     margin: 2px;
+  //   }
+  // }
 }
 </style>

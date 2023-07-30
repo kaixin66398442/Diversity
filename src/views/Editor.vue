@@ -16,7 +16,7 @@ import MaterialList from "@/components/material/MaterialList.vue";
 import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
 import Control from "@/components/control/Control.vue";
-import { reactive ,provide } from "vue";
+import { reactive, provide } from "vue";
 import jsonData from "@/data.json";
 import { Data } from "@/type/data";
 import { registerConfig as config } from "@/hook/canvas";
@@ -24,12 +24,10 @@ import { registerConfig as config } from "@/hook/canvas";
 const data: Data = reactive(jsonData);
 
 //向子组件提供data
-provide('data',data);
-
+provide("data", data);
 
 //向子组件提供物料config
-provide('config',config);
-
+provide("config", config);
 
 //鼠标滚轮事件
 const handlerWheel = (e: MouseEvent) => {

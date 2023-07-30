@@ -69,10 +69,22 @@
           @click="store.material.isShowMaterial = true"
         ></SvgIcon>
         <!-- 撤销 -->
-        <SvgIcon name="undo" width="18" height="18" class="svg"></SvgIcon>
+        <SvgIcon
+          name="undo"
+          width="18"
+          height="18"
+          class="svg"
+          @click="commands.undo()"
+        ></SvgIcon>
 
         <!-- 重做 -->
-        <SvgIcon name="redo" width="18" height="18" class="svg"></SvgIcon>
+        <SvgIcon
+          name="redo"
+          width="18"
+          height="18"
+          class="svg"
+          @click="commands.redo()"
+        ></SvgIcon>
 
         <!-- 格式刷 -->
         <SvgIcon
@@ -147,8 +159,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, reactive, inject } from "vue";
 import { useStore } from "@/store";
+import { useFocus } from "@/hook/useFocus";
+import { useCommand } from "@/hook/useCommand";
+import { Data } from "@/type/data";
+
 const store = useStore();
 
 //字体类型
@@ -224,6 +240,14 @@ const fontSizeOptions = [
     label: "20",
   },
 ];
+
+//data.json的数据
+const data: Data = inject("data")!;
+
+const { focusData } = useFocus(data, () => {});
+
+//按钮功能映射
+const { commands } = useCommand(data, focusData);
 </script>
 
 <style lang="scss" scoped>
