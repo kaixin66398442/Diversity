@@ -6,6 +6,7 @@ import { createPinia } from "pinia";
 import "virtual:svg-icons-register";
 import SvgIcon from "./components/SvgIcon.vue";
 
+import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
 // 全局样式
@@ -19,4 +20,4 @@ app.component("SvgIcon", SvgIcon);
 
 const pinia = createPinia();
 
-createApp(App).use(pinia).use(router).mount("#app");
+createApp(App).use(ElementPlus).use(pinia).use(router).mount("#app");

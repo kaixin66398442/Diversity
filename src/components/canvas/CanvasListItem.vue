@@ -6,6 +6,7 @@
     :class="props.block.focus ? 'active' : 'block'"
   >
     <component :is="RenderComponent"></component>
+    <slot name="node-anchor"></slot>
   </div>
 </template>
 

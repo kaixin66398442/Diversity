@@ -42,13 +42,8 @@
           <div class="tabs-left">
             <!-- 菜单按钮盒子 -->
             <div class="menu-btn-box">
-              <div class="menu-btn">文件</div>
-              <div class="menu-btn">编辑</div>
-              <div class="menu-btn">选择</div>
-              <div class="menu-btn">插入</div>
-              <div class="menu-btn">布局</div>
-              <div class="menu-btn">视图</div>
-              <div class="menu-btn">符号</div>
+              <!-- 菜单盒子 -->
+              <Menu></Menu>
             </div>
           </div>
         </div>
@@ -363,23 +358,6 @@ const { commands } = useCommand(data, focusData);
           .menu-btn-box {
             display: flex;
             flex-wrap: nowrap;
-
-            //   里面的菜单按钮
-            .menu-btn {
-              position: relative;
-              cursor: pointer;
-              font-size: 12px;
-              user-select: none;
-              margin: 0 0;
-              padding: 0 18px;
-              height: 100%;
-              line-height: 24px;
-              border-radius: 8px 8px 0 0;
-
-              &:hover {
-                background-color: #fff;
-              }
-            }
           }
         }
       }
