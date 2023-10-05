@@ -1,8 +1,12 @@
 <template>
-  <div class="canvas-list" @mousedown.stop="containerMousedown($event)">
+  <div
+    class="canvas-list"
+    id="center"
+    @mousedown.stop="containerMousedown($event)"
+  >
     <CanvasListItem
       v-for="(block, index) in data.blocks"
-      :id="'block' + index"
+      :id="'node' + index"
       :index="index"
       :block="block"
       @mousedown.stop="blockMousedown($event, block, index)"
@@ -147,69 +151,6 @@ onMounted(() => {
     //因为jsplimb要在dom元素加载之后才能执行，因为他的原理是找到你绑定的画布dom去渲染svg数据，所以必须得画布dom已经渲染之后才能初始化
     init();
   });
-
-  // jsPlumb.ready(function () {
-  //   let common = {
-  //     isSource: true,
-  //     isTarget: true,
-  //     connector: "Flowchart",
-  //     endpoint: "Dot",
-  //     paintStyle: {
-  //       fill: "white",
-  //       outlineStroke: "black",
-  //       strokeWidth: 2,
-  //     },
-  //     hoverPaintStyle: {
-  //       outlineStroke: "lightgray",
-  //     },
-  //     connectorStyle: {
-  //       outlineStroke: "black",
-  //       strokeWidth: 1,
-  //     },
-  //     connectorHoverStyle: {
-  //       strokeWidth: 1,
-  //     },
-  //   };
-  //   jsPlumb.bind("click", (conn, originalEvent) => {
-  //     console.log(conn, "conn");
-  //     console.log(originalEvent, "originalEvent");
-  //   });
-  //   data.blocks.forEach((_, index: number) => {
-  //     jsPlumb.addEndpoint(
-  //       `block${index}`,
-  //       {
-  //         anchors: ["Left"],
-  //       },
-  //       common
-  //     );
-  //     jsPlumb.addEndpoint(
-  //       `block${index}`,
-  //       {
-  //         anchors: ["Right"],
-  //       },
-  //       common
-  //     );
-  //     jsPlumb.addEndpoint(
-  //       `block${index}`,
-  //       {
-  //         anchors: ["Top"],
-  //       },
-  //       common
-  //     );
-  //     jsPlumb.addEndpoint(
-  //       `block${index}`,
-  //       {
-  //         anchors: ["Bottom"],
-  //       },
-  //       common
-  //     );
-  //     jsPlumb.draggable(`block${index}`);
-  //     jsPlumb.makeSource(`block${index}`, {
-  //       endpoint: "Dot",
-  //       anchor: "Continuous",
-  //     });
-  //   });
-  // });
 });
 
 //初始化
@@ -228,22 +169,36 @@ const init = () => {
 const loadEasyFlow = () => {
   // 初始化节点
   nodeList.value.forEach((node: any) => {
-    // console.log("node:", node.id);
-    // console.log(
-    //   "jsplumbSourceOptionsConfig.value:",
-    //   jsplumbSourceOptionsConfig.value
-    // );
-    console.log("jsPlumb_instance:", jsPlumb_instance);
     // 设置源点，可以拖出线连接其他节点
-    // jsPlumb_instance.makeSource(node.id, jsplumbSourceOptionsConfig.value);
+    jsPlumb_instance.makeSource(node?.id, jsplumbSourceOptionsConfig.value);
     // // 设置目标点，其他源点拖出的线可以连接该节点
-    jsPlumb_instance.makeTarget(node.id, jsplumbTargetOptionsConfig.value);
+    jsPlumb_instance.makeTarget(node?.id, jsplumbTargetOptionsConfig.value);
     //画布节点添加拖拽方法
     // draggableNode(node.id);
 
-    // jsPlumb_instance.unbind("connection"); //取消连接事件
+    jsPlumb_instance.unbind("connection"); //取消连接事件
+
+    // 连线;
+    jsPlumb_instance.bind("connection", (evt: any) => {
+      console.log(evt);
+      console.log("连线");
+      let from = evt.source.id;
+      let to = evt.target.id;
+      lineList.value.push({
+        from: from,
+        to: to,
+        label: "", //连线名称
+        id: GenNonDuplicateID(8),
+        Remark: "",
+      });
+      console.log("lineList:", lineList.value);
+    });
+
+    console.log("lineList1111:", lineList.value);
     // lineList.value.forEach((_, idx: number) => {
     //   let line: any = jsPlumbData.lineList[idx];
+    //   console.log("line?.from:", line?.from);
+    //   console.log("line?.to:", line?.to);
     //   jsPlumb_instance.connect(
     //     {
     //       source: line?.from,
@@ -252,45 +207,31 @@ const loadEasyFlow = () => {
     //     jsplumbConnectOptionsConfig.value
     //   );
     // });
-
-    // // 连线;
-    // jsPlumb_instance.bind("connection", (evt: any) => {
-    //   console.log(evt);
-    //   console.log("连线");
-
-    //   let from = evt.source.id;
-    //   let to = evt.target.id;
-    //   lineList.value.push({
-    //     from: from,
-    //     to: to,
-    //     label: "", //连线名称
-    //     id: GenNonDuplicateID(8),
-    //     Remark: "",
-    //   });
-    // });
   });
 };
 
 //给画布节点添加拖拽方法
 const draggableNode = (nodeId: string) => {
   console.log("nodeId:", nodeId);
-  // jsPlumb_instance.draggable(nodeId, {
-  //   grid: [5, 5],
-  //   containment: "center",
-  //   drag: (event: any) => {
-  //     window.event
-  //       ? (window.event.cancelBubble = true)
-  //       : event.stopPropagation();
-  //     return false;
-  //   },
-  //   stop: (event: any) => {
-  //     let nodeIndex = nodeList.value.findIndex((x) => x.id === nodeId);
-  //     Object.assign(nodeList.value[nodeIndex], {
-  //       x: event.pos[0],
-  //       y: event.pos[1],
-  //     });
-  //   },
-  // });
+  jsPlumb_instance.draggable(nodeId, {
+    grid: [5, 5],
+    container: "center",
+    drag: (event: any) => {
+      console.log("drag:", event);
+      window.event
+        ? (window.event.cancelBubble = true)
+        : event.stopPropagation();
+      return false;
+    },
+    stop: (event: any) => {
+      console.log("stop:", event);
+      let nodeIndex = nodeList.value.findIndex((x) => x.id === nodeId);
+      Object.assign(nodeList.value[nodeIndex], {
+        x: event.pos[0],
+        y: event.pos[1],
+      });
+    },
+  });
 };
 </script>
 
