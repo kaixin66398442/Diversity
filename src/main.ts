@@ -29,4 +29,4 @@ app.component("SvgIcon", SvgIcon);
 
 const pinia = createPinia();
 
-createApp(App).use(pinia).use(router).mount("#app");
+createApp(App).use(ElementPlus).use(pinia).use(router).mount("#app");

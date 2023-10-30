@@ -42,13 +42,8 @@
           <div class="tabs-left">
             <!-- 菜单按钮盒子 -->
             <div class="menu-btn-box">
-              <div class="menu-btn">文件</div>
-              <div class="menu-btn">编辑</div>
-              <div class="menu-btn">选择</div>
-              <div class="menu-btn">插入</div>
-              <div class="menu-btn">布局</div>
-              <div class="menu-btn">视图</div>
-              <div class="menu-btn">符号</div>
+              <!-- 菜单盒子 -->
+              <Menu></Menu>
             </div>
           </div>
         </div>
@@ -69,10 +64,22 @@
           @click="store.material.isShowMaterial = true"
         ></SvgIcon>
         <!-- 撤销 -->
-        <SvgIcon name="undo" width="18" height="18" class="svg"></SvgIcon>
+        <SvgIcon
+          name="undo"
+          width="18"
+          height="18"
+          class="svg"
+          @click="commands.undo()"
+        ></SvgIcon>
 
         <!-- 重做 -->
-        <SvgIcon name="redo" width="18" height="18" class="svg"></SvgIcon>
+        <SvgIcon
+          name="redo"
+          width="18"
+          height="18"
+          class="svg"
+          @click="commands.redo()"
+        ></SvgIcon>
 
         <!-- 格式刷 -->
         <SvgIcon
@@ -149,8 +156,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, reactive, inject } from "vue";
 import { useStore } from "@/store";
+import { useFocus } from "@/hook/useFocus";
+import { useCommand } from "@/hook/useCommand";
+import { Data } from "@/type/data";
+
 const store = useStore();
 
 //字体类型
@@ -226,6 +237,14 @@ const fontSizeOptions = [
     label: "20",
   },
 ];
+
+//data.json的数据
+const data: Data = inject("data")!;
+
+const { focusData } = useFocus(data, () => {});
+
+//按钮功能映射
+const { commands } = useCommand(data, focusData);
 </script>
 
 <style lang="scss" scoped>
@@ -341,23 +360,6 @@ const fontSizeOptions = [
           .menu-btn-box {
             display: flex;
             flex-wrap: nowrap;
-
-            //   里面的菜单按钮
-            .menu-btn {
-              position: relative;
-              cursor: pointer;
-              font-size: 12px;
-              user-select: none;
-              margin: 0 0;
-              padding: 0 18px;
-              height: 100%;
-              line-height: 24px;
-              border-radius: 8px 8px 0 0;
-
-              &:hover {
-                background-color: #fff;
-              }
-            }
           }
         }
       }

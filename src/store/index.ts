@@ -8,8 +8,7 @@ interface State {
     scale: number; //画布适配
     canvasRef: any; //画布dom
     isPreview: boolean; //是否预览
-    // canvasWidth: number;
-    // canvasHeight: number;
+    lastSelectBlock: Block | null; //最后一个选中的block
   };
 
   //物料
@@ -45,6 +44,7 @@ export const useStore = defineStore("main", {
       scale: 2, //画布适配参数（要适配A4的话1显得画布太小了）
       canvasRef: ref(null), //画布dom
       isPreview: false, //是否预览
+      lastSelectBlock: null,
     },
     material: {
       isShowMaterial: true,
