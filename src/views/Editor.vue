@@ -4,7 +4,7 @@
     <div id="bottom">
       <MaterialList></MaterialList>
       <EditorContainer></EditorContainer>
-      <Operator></Operator>
+      <Operator v-model="data"></Operator>
     </div>
     <Control></Control>
   </div>
@@ -16,20 +16,49 @@ import MaterialList from "@/components/material/MaterialList.vue";
 import Operator from "@/components/operator/Operator.vue";
 import EditorContainer from "@/components/container/EditorContainer.vue";
 import Control from "@/components/control/Control.vue";
-import { reactive ,provide } from "vue";
+import { reactive, provide, watch } from "vue";
 import jsonData from "@/data.json";
-import { Data } from "@/type/data";
+import type { Data } from "@/type/data";
 import { registerConfig as config } from "@/hook/canvas";
-
+import { useStore } from "@/store";
+const store = useStore();
+// data.json的数据
 const data: Data = reactive(jsonData);
 
-//向子组件提供data
-provide('data',data);
+// 校验页面方向
+function checkDirection() {
+  if (
+    store.operator.canvaDirectionValue === "transverse" &&
+    data.container.width < data.container.height
+  ) {
+    [data.container.width, data.container.height] = [
+      data.container.height,
+      data.container.width,
+    ];
+  } else if (
+    store.operator.canvaDirectionValue === "vertical" &&
+    data.container.width > data.container.height
+  ) {
+    [data.container.width, data.container.height] = [
+      data.container.height,
+      data.container.width,
+    ];
+  }
+}
 
+watch(
+  () => [store.operator.canvaDirectionValue, store.operator.pageSizeValue],
+  () => {
+    checkDirection();
+  },
+  { immediate: true }
+);
+
+//向子组件提供data
+provide("data", data);
 
 //向子组件提供物料config
-provide('config',config);
-
+provide("config", config);
 
 //鼠标滚轮事件
 const handlerWheel = (e: MouseEvent) => {
@@ -38,6 +67,8 @@ const handlerWheel = (e: MouseEvent) => {
     e.preventDefault();
   }
 };
+
+//
 </script>
 
 <style scoped lang="scss">

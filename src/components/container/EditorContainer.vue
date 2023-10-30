@@ -39,7 +39,6 @@ import {
   onMounted,
   nextTick,
   inject,
-  watch,
 } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
@@ -47,10 +46,12 @@ import "vue3-sketch-ruler/lib/style.css";
 import { useStore } from "@/store";
 import { Data } from "@/type/data";
 
+
+// 获取仓库
 const store = useStore();
 
 //接收父组件传来的data
-const data: Data = inject("data")!;
+const data: Data = inject("data")!; // ! 是 TypeScript 中的非空断言操作符
 
 //rectWidth,rectHeight为画布宽高
 const rectWidth = computed<number>(() => data.container.width);
@@ -90,7 +91,7 @@ const shadow = computed(() => {
   };
 });
 
-//画布
+//画布尺寸
 const canvasStyle = computed(() => {
   return {
     width: `${rectWidth.value}px`,
@@ -102,11 +103,12 @@ const canvasStyle = computed(() => {
 onMounted(() => {
   // 滚动居中
   screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 260;
+    containerRef.value.getBoundingClientRect().width / 2 - 200;
   screensRef.value.scrollTop =
-    containerRef.value.getBoundingClientRect().height / 2 - 20;
+    containerRef.value.getBoundingClientRect().height / 2 - 150;
 });
 
+// 控制滚动后画布的尺寸
 const handleScroll = () => {
   const screensRect = document
     .querySelector("#screens")
@@ -150,7 +152,7 @@ const handleWheel = (e: {
   position: relative;
   width: 100%;
   height: 92%;
-  background-color: #ebebf1;
+  background-color: #EBEBF1;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 
   .wrapper {
@@ -161,8 +163,8 @@ const handleWheel = (e: {
     */
     width: 100%;
     height: 100%;
-    background-color: #f5f5f5;
-    border: 1px solid #dadadc;
+    background-color: #EBEBF1;
+    // border: 1px solid #dadadc;
   }
 
   #screens {

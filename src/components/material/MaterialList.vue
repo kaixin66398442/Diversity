@@ -36,7 +36,6 @@
     </div>
 
     <!-- 物料内容区域 -->
-
     <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
       <template #default="{ node, data }">
         <div v-if="data.component" id="basic-flowchart-shapes">
@@ -59,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onMounted, watch } from "vue";
+import { ref, inject } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
 import { CreateCanvasConfigResult, Component } from "@/type/canvas";
@@ -67,42 +66,41 @@ import MaterialListItem from "@/components/material/MaterialListItem.vue";
 import { events } from "@/hook/events";
 import { Data } from "@/type/data";
 
-//引入data
+// 引入data
 const data: Data = inject("data")!;
 
 const store = useStore();
 
 const newWidth = ref(250);
 
-//调用拖拽改变宽度的hook
+// 调用拖拽改变宽度的hook
 const { mouseDown } = useDragChange(newWidth, 200, 400);
 
-//物料注册
+// 物料注册
 const config: CreateCanvasConfigResult = inject("config")!;
 
-//获取当前所有的物料列表
+// 获取当前所有的物料列表
 const componentList: Component[] = config.componentList;
 
-
-//被拖拽的物料
+// 被拖拽的物料
 let currentComponent: any = null;
 
-//进入元素中，添加一个移动的标识
+// 进入元素中，添加一个移动的标识
 const dragenter = (e: any) => {
   e.dataTransfer.dropEffect = "move";
 };
 
-//在目标元素经过，必须阻止默认行为，否则不能触发drop
+// 在目标元素经过，必须阻止默认行为，否则不能触发drop
 const dragover = (e: any) => {
   e.preventDefault();
 };
 
-//离开元素的时候，需要增加一个禁用标识
+// 离开元素的时候，需要增加一个禁用标识
 const dragleave = (e: any) => {
   e.dataTransfer.dropEffect = "none";
 };
 
-//松手的时候，根据拖拽的组件，添加一个组件
+// 松手的时候，根据拖拽的组件，添加一个组件
 const drop = (e: any) => {
   //拿到当前的物料，将其添加到home组件的data里面
   const current = {

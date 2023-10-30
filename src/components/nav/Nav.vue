@@ -125,6 +125,7 @@
       <!-- 右侧编辑区 -->
       <div class="right">
         <!-- 收缩展开 -->
+        <!-- 折叠 -->
         <SvgIcon
           name="folded"
           width="22"
@@ -133,6 +134,7 @@
           v-if="store.operator.isShowOperator"
           @click="store.operator.isShowOperator = false"
         ></SvgIcon>
+        <!-- 展开 -->
         <SvgIcon
           name="unfolded"
           width="22"

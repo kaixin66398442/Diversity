@@ -1,4 +1,3 @@
-
 import { defineComponent } from "vue";
 export interface Component {
     label: string;

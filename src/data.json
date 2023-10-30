@@ -1,40 +1,41 @@
 {
-    "container": {
-        "width": 750,
-        "height": 525
+  "container": {
+    "width": 210,
+    "height": 297
+  },
+  "blocks": [
+    {
+      "top": 10,
+      "left": 10,
+      "zIndex": 1,
+      "key": "start-or-end",
+      "props": {
+        "text": "开始或结束",
+        "color": "#ff0000",
+        "size": "14px"
+      }
     },
-    "blocks": [{
-            "top": 100,
-            "left": 100,
-            "zIndex": 1,
-            "key": "start-or-end",
-            "props": {
-                "text": "开始或结束",
-                "color": "#ff0000",
-                "size": "14px"
-            }
-        },
-        {
-            "top": 200,
-            "left": 200,
-            "zIndex": 1,
-            "key": "process",
-            "props": {
-                "text": "流程",
-                "color": "#ff0000",
-                "size": "14px"
-            }
-        },
-        {
-            "top": 300,
-            "left": 300,
-            "zIndex": 1,
-            "key": "decision",
-            "props": {
-                "text": "判定",
-                "color": "#ff0000",
-                "size": "14px"
-            }
-        }
-    ]
+    {
+      "top": 20,
+      "left": 20,
+      "zIndex": 1,
+      "key": "process",
+      "props": {
+        "text": "流程",
+        "color": "#ff0000",
+        "size": "14px"
+      }
+    },
+    {
+      "top": 30,
+      "left": 30,
+      "zIndex": 1,
+      "key": "decision",
+      "props": {
+        "text": "判定",
+        "color": "#ff0000",
+        "size": "14px"
+      }
+    }
+  ]
 }

@@ -12,7 +12,6 @@ export interface Block {
     props: Props;
 }
 
-
 //导出 data.json的数据定义
 export interface Data {
     container: {

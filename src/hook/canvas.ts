@@ -5,15 +5,13 @@ import {
   defineComponent,
   onMounted,
   reactive,
-  ref,
-  watch,
+  ref
 } from "vue";
 import {
   Component,
   ComponentMap,
   CreateCanvasConfigResult,
 } from "@/type/canvas";
-
 import {
   createCanvasContext,
   StartNode,
@@ -23,8 +21,8 @@ import {
   ArcProcessNode,
   CircleNode,
 } from "@/hook/flowchart";
-
 import { ElInput } from "element-plus";
+
 function createCanvasConfig(): CreateCanvasConfigResult {
   const componentList: Component[] = [];
   const componentMap: ComponentMap = {};
@@ -40,7 +38,7 @@ function createCanvasConfig(): CreateCanvasConfigResult {
 }
 export let registerConfig = createCanvasConfig();
 
-//物料属性
+// 物料属性
 const createInputProp = (label: String) => ({ type: "input", label });
 const createColorProp = (label: String) => ({ type: "color", label });
 const createSelectProp = (label: String, options: any) => ({
@@ -49,7 +47,7 @@ const createSelectProp = (label: String, options: any) => ({
   options,
 });
 
-//流程
+// 流程
 registerConfig.register({
   label: "流程",
   preview: () =>
@@ -150,13 +148,13 @@ registerConfig.register({
   },
 });
 
-//开始或结束
+// 开始或结束
 registerConfig.register({
   label: "开始或结束",
   preview: () =>
     defineComponent({
       template: `<div ref="startRef"></div>`,
-      setup() {
+      setup() { 
         //获取元素
         const startRef: any = ref(null);
 
@@ -251,7 +249,7 @@ registerConfig.register({
   },
 });
 
-//判定
+// 判定
 registerConfig.register({
   label: "判定",
   preview: () =>
@@ -352,7 +350,7 @@ registerConfig.register({
   },
 });
 
-//手动操作
+// 手动操作
 registerConfig.register({
   label: "手动操作",
   preview: () =>
@@ -452,7 +450,7 @@ registerConfig.register({
   },
 });
 
-//圆弧流程
+// 圆弧流程
 registerConfig.register({
   label: "圆弧流程",
   preview: () =>
@@ -552,7 +550,7 @@ registerConfig.register({
   },
 });
 
-//开始
+// 开始
 registerConfig.register({
   label: "开始",
   preview: () =>
