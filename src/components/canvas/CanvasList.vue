@@ -1,5 +1,5 @@
 <template>
-  <div class="canvas-list" ref="canvasListRef" id="center" @mousedown.stop="containerMousedown($event)">
+  <div class="canvas-list" ref="canvasListRef" id="center">
 
   </div>
 </template>
@@ -74,19 +74,6 @@ watch(
     deep: true,
   }
 );
-
-//按钮操作
-const { commands } = useCommand(data, focusData);
-
-//右键点击出现菜单栏
-const onContextMenuBlock = (e: MouseEvent) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  //调用函数，动态创建组件
-  createComponent(e, commands, store.canvas.canvasRef);
-};
-
 </script>
 
 <style scoped lang="scss">

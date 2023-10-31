@@ -19,7 +19,6 @@ import Control from "@/components/control/Control.vue";
 import { reactive, provide, watch } from "vue";
 import jsonData from "@/data.json";
 import type { Data } from "@/type/data";
-import { registerConfig as config } from "@/hook/canvas";
 import { useStore } from "@/store";
 const store = useStore();
 // data.json的数据
@@ -57,8 +56,6 @@ watch(
 //向子组件提供data
 provide("data", data);
 
-//向子组件提供物料config
-provide("config", config);
 
 //鼠标滚轮事件
 const handlerWheel = (e: MouseEvent) => {
