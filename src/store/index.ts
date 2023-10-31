@@ -41,7 +41,7 @@ export const useStore = defineStore("main", {
   // 推荐使用 完整类型推断的箭头函数
   state: (): State => ({
     canvas: {
-      scale: 2, //画布适配参数（要适配A4的话1显得画布太小了）
+      scale: 1, //画布适配参数（要适配A4的话1显得画布太小了）
       canvasRef: ref(null), //画布dom
       isPreview: false, //是否预览
       lastSelectBlock: null,
