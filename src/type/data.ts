@@ -1,15 +1,39 @@
-export interface Props {
-  text?: string;
-  size?: string;
-  color?: string;
+export interface Attrs {
+  body: {
+    fill?: string;
+    stroke?: string;
+    rx?: number;
+    ry?: number;
+    strokeDasharray?: string
+  },
+  label: {
+    text?: string,
+    fill?: string,
+    fontSize?: number,
+    fontWeight?: string,
+    fontVariant?: string,
+  }
 }
 
-export interface Block {
-  top: number;
-  left: number;
-  zIndex: number;
-  key: string;
-  props: Props;
+export interface LineAttrs {
+  line: {
+    stroke?: string
+  }
+}
+export interface Node {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  attrs?: Attrs;
+}
+
+export interface Edge {
+  source: string;
+  target: string;
+  shape?: string;
+  attrs?: LineAttrs;
 }
 
 export interface Container {
@@ -17,8 +41,10 @@ export interface Container {
   height: number;
 }
 
+
 //导出 data.json的数据定义
 export interface Data {
   container: Container;
-  blocks: Block[];
+  nodes: Node[];
+  edges: Edge[]
 }

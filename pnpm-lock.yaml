@@ -52,6 +52,9 @@ dependencies:
   vue-demi:
     specifier: ^0.14.5
     version: registry.npmmirror.com/vue-demi@0.14.5(vue@3.2.47)
+  vue-resize-observer:
+    specifier: ^2.0.16
+    version: registry.npmmirror.com/vue-resize-observer@2.0.16
   vue-router:
     specifier: ^4.0.10
     version: registry.npmmirror.com/vue-router@4.0.10(vue@3.2.47)
@@ -4695,6 +4698,12 @@ packages:
         optional: true
     dependencies:
       vue: registry.npmmirror.com/vue@3.2.47
+    dev: false
+
+  registry.npmmirror.com/vue-resize-observer@2.0.16:
+    resolution: {integrity: sha512-E6LBZp0KSYAgA7KbqKv6GA4NRj6Q677Ldck5e+nTB2GCjhyPZQzdYJEzIeYoERDuwI6c6OcGF5Vd4a0+rjZECA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue-resize-observer/-/vue-resize-observer-2.0.16.tgz}
+    name: vue-resize-observer
+    version: 2.0.16
     dev: false
 
   registry.npmmirror.com/vue-router@4.0.10(vue@3.2.47):

@@ -1,6 +1,6 @@
 <template>
   <!-- 左侧物料库 -->
-  <div class="editor-left material-list" v-if="store.material.isShowMaterial" :style="{ width: newWidth + 'px' }">
+  <div class="editor-left material-list" v-show="store.material.isShowMaterial" :style="{ width: newWidth + 'px' }">
     <!-- 顶部导航栏 -->
     <div class="material-nav">
       <div class="left">

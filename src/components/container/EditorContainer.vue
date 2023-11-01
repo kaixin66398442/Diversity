@@ -1,26 +1,13 @@
 <template>
   <!-- 中间画布区 -->
   <div class="editor-container">
-    <div class="wrapper" ref="wapperRef">
+    <div class="wrapper" ref="wapperRef" v-resize="handleResize">
       <!--  这个可以传入图标 -->
-      <SketchRule
-        :thick="state.thick"
-        :scale="store.canvas.scale"
-        :width="rulerWidth"
-        :height="rulerHeight"
-        :start-x="state.startX"
-        :start-y="state.startY"
-        :shadow="shadow"
-        :isShowReferLine="state.isShowReferLine"
-        :lines="state.lines"
-      >
+      <SketchRule :thick="state.thick" :scale="store.canvas.scale" :width="state.rulerWidth" :height="state.rulerHeight"
+        :start-x="state.startX" :start-y="state.startY" :shadow="shadow" :isShowReferLine="state.isShowReferLine"
+        :lines="state.lines">
       </SketchRule>
-      <div
-        id="screens"
-        ref="screensRef"
-        @wheel="handleWheel"
-        @scroll="handleScroll"
-      >
+      <div id="screens" ref="screensRef" @wheel="handleWheel" @scroll="handleScroll">
         <div ref="containerRef" class="screen-container">
           <div id="canvas" ref="canvasRef" :style="canvasStyle">
             <CanvasList></CanvasList>
@@ -39,6 +26,7 @@ import {
   onMounted,
   nextTick,
   inject,
+  onBeforeUnmount,
 } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
@@ -54,8 +42,8 @@ const store = useStore();
 const data: Data = inject("data")!; // ! 是 TypeScript 中的非空断言操作符
 
 //rectWidth,rectHeight为画布宽高
-const rectWidth = computed<number>(() => data.container.width);
-const rectHeight = computed<number>(() => data.container.height);
+const rectWidth = computed(() => data.container.width);
+const rectHeight = computed(() => data.container.height);
 const screensRef: any = ref(null);
 const containerRef: any = ref(null);
 const wapperRef: any = ref(null);
@@ -68,6 +56,9 @@ store.canvas.canvasRef = computed(() => canvasRef.value);
 const state = reactive({
   startX: 0,
   startY: 0,
+  //标尺的宽高
+  rulerWidth: 0,
+  rulerHeight: 0,
   lines: {
     h: [0, 750],
     v: [0, 525],
@@ -77,9 +68,6 @@ const state = reactive({
   isShowReferLine: false, // 显示参考线
 });
 
-//标尺的宽高
-const rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
-const rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
 //背景阴影
 const shadow = computed(() => {
@@ -100,7 +88,15 @@ const canvasStyle = computed(() => {
   };
 });
 
+
+//监听窗口变化改变标尺宽高
+const handleResize = () => {
+  state.rulerWidth = wapperRef.value?.offsetWidth - state.thick;
+  state.rulerHeight = wapperRef.value?.offsetHeight - state.thick
+};
+
 onMounted(() => {
+  handleResize();
   // 滚动居中
   screensRef.value.scrollLeft =
     containerRef.value.getBoundingClientRect().width / 2 - 200;

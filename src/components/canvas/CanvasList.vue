@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { inject, ref, onMounted, watch, reactive, nextTick, toRefs } from "vue";
-import { Data, Block } from "@/type/data";
+import { Data } from "@/type/data";
 import { useStore } from "@/store";
 // 引入x6的Graph
 // 使用x6来配置网格背景

@@ -1,4 +1,4 @@
-import { Data, Block } from "@/type/data";
+import { Data } from "@/type/data";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -8,7 +8,6 @@ interface State {
     scale: number; //画布适配
     canvasRef: any; //画布dom
     isPreview: boolean; //是否预览
-    lastSelectBlock: Block | null; //最后一个选中的block
   };
 
   //物料
@@ -44,7 +43,6 @@ export const useStore = defineStore("main", {
       scale: 1, //画布适配参数（要适配A4的话1显得画布太小了）
       canvasRef: ref(null), //画布dom
       isPreview: false, //是否预览
-      lastSelectBlock: null,
     },
     material: {
       isShowMaterial: true,
@@ -58,8 +56,8 @@ export const useStore = defineStore("main", {
           value: "297 420",
         },
         {
-          label: "A4(210mm × 297mm)",
-          value: "210 297",
+          label: "A4(1050px × 1500px)",
+          value: "1050 1500",
         },
         {
           label: "A5(148mm × 210mm)",
@@ -139,11 +137,7 @@ export const useStore = defineStore("main", {
     },
   }),
   actions: {
-    //更新data数据
-    updateData: (data: Data, obj: Block) => {
-      console.log(data);
-      data.blocks.push(obj);
-    },
+
   },
   getters: {},
 });
