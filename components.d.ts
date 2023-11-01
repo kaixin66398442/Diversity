@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BackgroundGrid: typeof import('./src/components/BackgroundGrid.vue')['default']
     CanvasList: typeof import('./src/components/canvas/CanvasList.vue')['default']
     CanvasListItem: typeof import('./src/components/canvas/CanvasListItem.vue')['default']
     Control: typeof import('./src/components/control/Control.vue')['default']
@@ -25,6 +26,7 @@ declare module '@vue/runtime-core' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTree: typeof import('element-plus/es')['ElTree']

@@ -1,10 +1,12 @@
-//列表可以显示所有的物料
-//key对应的组件映射关系
+/**
+ * 左侧列表区可以显示所有的物料
+ * key对应的组件映射关系，配置组件间的映射关系
+ * 此文件产生一个配置
+ */
+
 import {
-  computed,
   defineComponent,
   onMounted,
-  reactive,
   ref
 } from "vue";
 import {
@@ -21,9 +23,9 @@ import {
   ArcProcessNode,
   CircleNode,
 } from "@/hook/flowchart";
-import { ElInput } from "element-plus";
 
 import { useCreateBlock } from "@/hook/useCreateBlock";
+
 
 function createCanvasConfig(): CreateCanvasConfigResult {
   const componentList: Component[] = [];

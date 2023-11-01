@@ -3,7 +3,7 @@
   <div
     class="editor-left material-list"
     v-if="store.material.isShowMaterial"
-    :style="{ width: newWidth + 'px' }"
+    :style="{ width: materialWidth + 'px' }"
   >
     <!-- 顶部导航栏 -->
     <div class="material-nav">
@@ -13,6 +13,7 @@
           <SvgIcon name="symbol" width="20" height="20" class="svg"></SvgIcon>
           <span>符号库</span>
         </div>
+        <!-- 向下的会动的箭头 -->
         <div class="arrow-bottom">
           <svgIcon
             name="arrow-bottom"
@@ -23,7 +24,9 @@
         </div>
       </div>
       <div class="right">
+        <!-- 搜索图标 -->
         <SvgIcon name="search" width="24" height="24" class="svg"></SvgIcon>
+        <!-- 收缩左侧栏图标 -->
         <SvgIcon
           name="arrow-left"
           width="24"
@@ -58,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
 import { CreateCanvasConfigResult, Component } from "@/type/canvas";
@@ -69,14 +72,23 @@ import { Data } from "@/type/data";
 // 引入data
 const data: Data = inject("data")!;
 
+// 引入仓库
 const store = useStore();
 
-const newWidth = ref(250);
+// 左侧栏的宽度
+const materialWidth = computed({
+  get() {
+    return store.material.materialWidth;
+  },
+  set(newValue) {
+    store.material.materialWidth = newValue;
+  },
+});
 
 // 调用拖拽改变宽度的hook
-const { mouseDown } = useDragChange(newWidth, 200, 400);
+const { mouseDown } = useDragChange(materialWidth, 200, 400);
 
-// 物料注册
+// 接收物料配置对象
 const config: CreateCanvasConfigResult = inject("config")!;
 
 // 获取当前所有的物料列表
@@ -145,6 +157,7 @@ interface Tree {
   componentList?: Component[];
 }
 
+// 左侧物料树状数据
 const treeData: Tree[] = [
   {
     label: "我的收藏",
@@ -193,6 +206,7 @@ const defaultProps = {
   component: "component",
   componentList: "componentList",
 };
+
 </script>
 
 <style lang="scss" scoped>

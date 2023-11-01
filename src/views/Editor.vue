@@ -4,7 +4,7 @@
     <div id="bottom">
       <MaterialList></MaterialList>
       <EditorContainer></EditorContainer>
-      <Operator v-model="data"></Operator>
+      <Operator></Operator>
     </div>
     <Control></Control>
   </div>
@@ -21,46 +21,19 @@ import jsonData from "@/data.json";
 import type { Data } from "@/type/data";
 import { registerConfig as config } from "@/hook/canvas";
 import { useStore } from "@/store";
+// 获取仓库
 const store = useStore();
-// data.json的数据
+// 将data.json的数据保存为响应式数据
 const data: Data = reactive(jsonData);
-
-// 校验页面方向
-function checkDirection() {
-  if (
-    store.operator.canvaDirectionValue === "transverse" &&
-    data.container.width < data.container.height
-  ) {
-    [data.container.width, data.container.height] = [
-      data.container.height,
-      data.container.width,
-    ];
-  } else if (
-    store.operator.canvaDirectionValue === "vertical" &&
-    data.container.width > data.container.height
-  ) {
-    [data.container.width, data.container.height] = [
-      data.container.height,
-      data.container.width,
-    ];
-  }
-}
-
-watch(
-  () => [store.operator.canvaDirectionValue, store.operator.pageSizeValue],
-  () => {
-    checkDirection();
-  },
-  { immediate: true }
-);
 
 //向子组件提供data
 provide("data", data);
 
 //向子组件提供物料config
 provide("config", config);
+console.log(config);
 
-//鼠标滚轮事件
+//鼠标滚轮事件(阻止用户鼠标缩放行为)
 const handlerWheel = (e: MouseEvent) => {
   //判断是不是按下ctrl键,取消去除方法缩小网页的行为
   if (e.ctrlKey) {
@@ -93,3 +66,4 @@ const handlerWheel = (e: MouseEvent) => {
   align-items: center;
 }
 </style>
+@/utils/config@/utils/materialConfig

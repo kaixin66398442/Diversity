@@ -1,3 +1,6 @@
+/**
+  画布上渲染的代码块，也就是配置里的blocks
+*/
 <template>
   <div
     class="block"

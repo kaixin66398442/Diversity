@@ -1,8 +1,8 @@
 <template>
   <!-- 中间画布区 -->
-  <div class="editor-container">
+  <div class="editor-container" :key="key">
     <div class="wrapper" ref="wapperRef">
-      <!--  这个可以传入图标 -->
+      <!--  标尺组件（这个可以传入图标） -->
       <SketchRule
         :thick="state.thick"
         :scale="store.canvas.scale"
@@ -15,6 +15,7 @@
         :lines="state.lines"
       >
       </SketchRule>
+      <!-- 大屏幕 -->
       <div
         id="screens"
         ref="screensRef"
@@ -22,7 +23,11 @@
         @scroll="handleScroll"
       >
         <div ref="containerRef" class="screen-container">
+          <!-- 画布 -->
           <div id="canvas" ref="canvasRef" :style="canvasStyle">
+            <!-- 背景网格 -->
+            <BackgroundGrid></BackgroundGrid>
+            <!-- 画布组件容器 -->
             <CanvasList></CanvasList>
           </div>
         </div>
@@ -39,6 +44,7 @@ import {
   onMounted,
   nextTick,
   inject,
+  watch,
 } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
@@ -46,7 +52,7 @@ import "vue3-sketch-ruler/lib/style.css";
 import { useStore } from "@/store";
 import { Data } from "@/type/data";
 
-
+const key = ref(Date.now());
 // 获取仓库
 const store = useStore();
 
@@ -78,8 +84,8 @@ const state = reactive({
 });
 
 //标尺的宽高
-const rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
-const rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
+let rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
+let rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
 //背景阴影
 const shadow = computed(() => {
@@ -98,14 +104,6 @@ const canvasStyle = computed(() => {
     height: `${rectHeight.value}px`,
     transform: `scale(${store.canvas.scale})`,
   };
-});
-
-onMounted(() => {
-  // 滚动居中
-  screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 200;
-  screensRef.value.scrollTop =
-    containerRef.value.getBoundingClientRect().height / 2 - 150;
 });
 
 // 控制滚动后画布的尺寸
@@ -144,6 +142,33 @@ const handleWheel = (e: {
     handleScroll();
   });
 };
+
+// 滚动居中
+function scrollCenter() {
+  screensRef.value.scrollLeft =
+    containerRef.value.getBoundingClientRect().width / 2 - 20;
+  screensRef.value.scrollTop =
+    containerRef.value.getBoundingClientRect().height / 2 - 20;
+}
+
+onMounted(() => {
+  // 滚动居中
+  scrollCenter();
+});
+
+// 监控左右两个收缩的按钮，重新渲染整个容器组件
+// 不知道为啥不能重新渲染标尺组件
+// 监控左侧栏的宽度，宽度改变时重新渲染
+watch(
+  () => [store.operator.isShowOperator, store.material.isShowMaterial,store.material.materialWidth],
+  () => {
+    key.value = Date.now();
+    nextTick(() => {
+      // 滚动居中
+      scrollCenter()
+    });
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -151,8 +176,7 @@ const handleWheel = (e: {
   flex: 1;
   position: relative;
   width: 100%;
-  height: 92%;
-  background-color: #EBEBF1;
+  height: 91%;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 
   .wrapper {
@@ -163,7 +187,7 @@ const handleWheel = (e: {
     */
     width: 100%;
     height: 100%;
-    background-color: #EBEBF1;
+    background-color: #ebebf1;
     // border: 1px solid #dadadc;
   }
 
@@ -175,21 +199,23 @@ const handleWheel = (e: {
 
     /* 设置滚动条的样式 */
     &::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
+      width: 6px;
+      height: 6px;
       border-radius: 5px;
     }
 
     /* 滚动槽 */
     &::-webkit-scrollbar-track {
-      background-color: #fff;
+      background-color: #ebebf1;
     }
 
     /* 滚动条滑块 */
     &::-webkit-scrollbar-thumb {
-      width: 20px;
+      width: 100px;
+      height: 100px;
       border-radius: 5px;
-      background: #d2d3d4;
+      background: #c9c9c9;
+      border: 0.1px solid #fff;
       margin: 2px;
     }
   }

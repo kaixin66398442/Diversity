@@ -1,9 +1,6 @@
 <template>
   <!-- 右侧操作区 -->
-  <div
-    class="editor-right operator"
-    :class="{ active: store.operator.isShowOperator }"
-  >
+  <div class="editor-right operator" v-if="store.operator.isShowOperator">
     <el-tabs type="border-card" stretch>
       <el-tab-pane label="绘图">
         <!-- 调节页面尺寸 -->
@@ -75,6 +72,11 @@
         <!-- 调整背景网格 -->
         <div class="background_grid">
           <h5 class="title">背景网格</h5>
+          <!-- 是否显示网格 -->
+          <div class="grid_isShow">
+            <p>是否显示网格</p>
+            <el-switch v-model="store.operator.isShowGrid" />
+          </div>
           <!-- 网格类型 -->
           <div class="grid_type">
             <p>网格类型</p>
@@ -131,37 +133,22 @@
 </template>
 
 <script setup lang="ts">
-// 引入仓库
+import { ref, computed ,watch,inject} from "vue";
 import { useStore } from "@/store";
 import { Data } from "@/type/data";
-import deepcopy from "deepcopy";
-import { ref, computed } from "vue";
+
+// 获取仓库
 const store = useStore();
-// 在组件使用v-model与父组件实现数据双向绑定
-// ts中的defineProps写法
-interface Props {
-  modelValue: Data;
-}
-const props = defineProps<Props>();
-// ts中的defineEmits写法
-const emit = defineEmits<{
-  (e: "onUpdate:modelValue", data: Data): void;
-}>();
-const data = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(newValue) {
-    emit("onUpdate:modelValue", deepcopy(newValue));
-  },
-});
+//接收父组件传来的data
+const data: Data = inject("data")!
 
 // 预设页面大小选项的改变
 function presetChange() {
-  let presetCanvasSize = store.operator.pageSizeValue.split(' ')
-  data.value.container.width = Number(presetCanvasSize[0])
-  data.value.container.height = Number(presetCanvasSize[1])
+  let presetCanvasSize = store.operator.pageSizeValue.split(" ");
+  data.container.width = Number(presetCanvasSize[0]);
+  data.container.height = Number(presetCanvasSize[1]);
 }
+
 </script>
 
 <style lang="scss">
@@ -171,12 +158,10 @@ function presetChange() {
   }
 }
 .operator {
-  width: 0px;
+  width: 250px;
   height: 100%;
   bottom: 35px;
   background-color: #f5f5f5;
-  border-left: 1px solid rgba(0, 0, 0, 0.06);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
   user-select: none;
   .title {
     margin-bottom: 15px;
@@ -226,9 +211,6 @@ function presetChange() {
     border: 0;
     background-color: transparent;
   }
-}
-.operator.active {
-  width: 250px;
 }
 
 // 选项卡的高度设置

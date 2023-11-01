@@ -14,6 +14,7 @@ interface State {
   //物料
   material: {
     isShowMaterial: boolean;
+    materialWidth: number;
   };
 
   //操作区
@@ -21,6 +22,7 @@ interface State {
     isShowOperator: boolean;
     pageSizeArr: any;
     pageSizeValue: string;
+    isShowGrid: boolean;
     gridTypeArr: any;
     gridTypeValue: string;
     gridSpacingValue: number;
@@ -41,53 +43,37 @@ export const useStore = defineStore("main", {
   // 推荐使用 完整类型推断的箭头函数
   state: (): State => ({
     canvas: {
-      scale: 2, //画布适配参数（要适配A4的话1显得画布太小了）
+      scale: 1, //画布适配参数（要适配A4的话1显得画布太小了）
       canvasRef: ref(null), //画布dom
       isPreview: false, //是否预览
       lastSelectBlock: null,
     },
     material: {
       isShowMaterial: true,
+      // 物料栏的宽度
+      materialWidth: 250,
     },
     operator: {
       isShowOperator: true,
       // 页面尺寸选择框数据列表
       pageSizeArr: [
         {
-          label: "A3(297mm × 420mm)",
-          value: "297 420",
+          label: "A3(1500px*2100px)",
+          value: "1500 2100",
         },
         {
-          label: "A4(210mm × 297mm)",
-          value: "210 297",
+          label: "A4(1050px*1500px)",
+          value: "1050 1500",
         },
         {
-          label: "A5(148mm × 210mm)",
-          value: "148 210",
-        },
-        {
-          label: "B4(250mm × 354mm)",
-          value: "250 354",
-        },
-        {
-          label: "B4(182mm × 257mm)",
-          value: "182 257",
-        },
-        {
-          label: "DL信封(110mm × 220mm)",
-          value: "110 220",
-        },
-        {
-          label: "C5信封(162mm × 229mm)",
-          value: "162 229",
-        },
-        {
-          label: "Quarto(215mm × 275mm)",
-          value: "215 275",
+          label: "A5(750px*1050px)",
+          value: "750 1050",
         },
       ],
       // 选中的页面尺寸
-      pageSizeValue: "A4(210mm × 297mm)",
+      pageSizeValue: "A4(1050px*1500px)",
+      // 是否显示网格
+      isShowGrid: true,
       // 网格类型列表"fixedDot"
       gridTypeArr: [
         {
@@ -110,15 +96,15 @@ export const useStore = defineStore("main", {
       // 选中的网格类型
       gridTypeValue: "doubleMesh",
       // 网格间距
-      gridSpacingValue: 5,
+      gridSpacingValue: 10,
       // 网格间距最大值
       gridSpacingMaxValue: 20,
       // 网格间距最小值
       gridSpacingMinValue: 1,
       // 网格颜色(主)
-      gridColorMainValue: "#eee",
+      gridColorMainValue: "#f2f2f2",
       // 网格颜色(次)
-      gridColorSecondValue: "#ddd",
+      gridColorSecondValue: "#e5e5e5",
       // 背景颜色
       gridBackgroundColorValue: "#fff",
       // 页面大小是选择预设还是自定义（默认预设）
