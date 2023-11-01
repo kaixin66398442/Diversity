@@ -9,12 +9,7 @@
         <div class="tabs-topbar">
           <div class="tabs-left">
             <div class="topbar-back">
-              <SvgIcon
-                name="topbar-back"
-                width="22px"
-                height="22px"
-                color="#666"
-              ></SvgIcon>
+              <SvgIcon name="topbar-back" width="22px" height="22px" color="#666"></SvgIcon>
             </div>
             <div class="topbar-options">
               <div class="rename">
@@ -55,66 +50,25 @@
       <!-- 左侧编辑区 -->
       <div class="left">
         <!-- 右箭头 -->
-        <SvgIcon
-          name="arrow-right"
-          width="30"
-          height="30"
-          class="svg"
-          v-if="!store.material.isShowMaterial"
-          @click="store.material.isShowMaterial = true"
-        ></SvgIcon>
+        <SvgIcon name="arrow-right" width="30" height="30" class="svg" v-if="!store.material.isShowMaterial"
+          @click="store.material.isShowMaterial = true"></SvgIcon>
         <!-- 撤销 -->
-        <SvgIcon
-          name="undo"
-          width="18"
-          height="18"
-          class="svg"
-          @click="commands.undo()"
-        ></SvgIcon>
+        <SvgIcon name="undo" width="18" height="18" class="svg"></SvgIcon>
 
         <!-- 重做 -->
-        <SvgIcon
-          name="redo"
-          width="18"
-          height="18"
-          class="svg"
-          @click="commands.redo()"
-        ></SvgIcon>
+        <SvgIcon name="redo" width="18" height="18" class="svg"></SvgIcon>
 
         <!-- 格式刷 -->
-        <SvgIcon
-          name="format-painter"
-          width="18"
-          height="18"
-          class="svg"
-        ></SvgIcon>
+        <SvgIcon name="format-painter" width="18" height="18" class="svg"></SvgIcon>
 
         <!-- 字体选择 -->
-        <el-select
-          v-model="fontType"
-          placeholder="Select"
-          class="font-type-select"
-        >
-          <el-option
-            v-for="item in fontTypeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="fontType" placeholder="Select" class="font-type-select">
+          <el-option v-for="item in fontTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
 
         <!-- 字号选择 -->
-        <el-select
-          v-model="fontSize"
-          placeholder="Select"
-          class="font-size-select"
-        >
-          <el-option
-            v-for="item in fontSizeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="fontSize" placeholder="Select" class="font-size-select">
+          <el-option v-for="item in fontSizeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
 
         <!-- 加粗 -->
@@ -133,23 +87,11 @@
       <div class="right">
         <!-- 收缩展开 -->
         <!-- 折叠 -->
-        <SvgIcon
-          name="folded"
-          width="22"
-          height="22"
-          class="svg"
-          v-if="store.operator.isShowOperator"
-          @click="store.operator.isShowOperator = false"
-        ></SvgIcon>
+        <SvgIcon name="folded" width="22" height="22" class="svg" v-if="store.operator.isShowOperator"
+          @click="store.operator.isShowOperator = false"></SvgIcon>
         <!-- 展开 -->
-        <SvgIcon
-          name="unfolded"
-          width="22"
-          height="22"
-          class="svg"
-          v-if="!store.operator.isShowOperator"
-          @click="store.operator.isShowOperator = true"
-        ></SvgIcon>
+        <SvgIcon name="unfolded" width="22" height="22" class="svg" v-if="!store.operator.isShowOperator"
+          @click="store.operator.isShowOperator = true"></SvgIcon>
       </div>
     </div>
   </div>
@@ -158,8 +100,6 @@
 <script setup lang="ts">
 import { ref, reactive, inject } from "vue";
 import { useStore } from "@/store";
-import { useFocus } from "@/hook/useFocus";
-import { useCommand } from "@/hook/useCommand";
 import { Data } from "@/type/data";
 
 const store = useStore();
@@ -240,11 +180,6 @@ const fontSizeOptions = [
 
 //data.json的数据
 const data: Data = inject("data")!;
-
-const { focusData } = useFocus(data, () => {});
-
-//按钮功能映射
-const { commands } = useCommand(data, focusData);
 </script>
 
 <style lang="scss" scoped>
@@ -387,6 +322,7 @@ const { commands } = useCommand(data, focusData);
       align-items: center;
       padding-left: 20px;
     }
+
     // 右侧编辑区
     .right {
       display: flex;

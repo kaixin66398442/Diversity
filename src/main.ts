@@ -12,6 +12,7 @@ import "element-plus/dist/index.css";
 // 配置ElementPlus国际化
 // @ts-ignore ts忽略检查
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import VueResizeObserver from "vue-resize-observer";
 
 // 全局样式
 import "@/styles/index.scss";
@@ -29,4 +30,4 @@ app.component("SvgIcon", SvgIcon);
 
 const pinia = createPinia();
 
-createApp(App).use(ElementPlus).use(pinia).use(router).mount("#app");
+createApp(App).use(ElementPlus).use(pinia).use(router).use(VueResizeObserver).mount("#app");

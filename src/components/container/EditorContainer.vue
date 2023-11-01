@@ -1,27 +1,13 @@
 <template>
   <!-- 中间画布区 -->
-  <div class="editor-container" :key="key">
-    <div class="wrapper" ref="wapperRef">
-      <!--  标尺组件（这个可以传入图标） -->
-      <SketchRule
-        :thick="state.thick"
-        :scale="store.canvas.scale"
-        :width="rulerWidth"
-        :height="rulerHeight"
-        :start-x="state.startX"
-        :start-y="state.startY"
-        :shadow="shadow"
-        :isShowReferLine="state.isShowReferLine"
-        :lines="state.lines"
-      >
+  <div class="editor-container">
+    <div class="wrapper" ref="wapperRef" v-resize="handleResize">
+      <!--  这个可以传入图标 -->
+      <SketchRule :thick="state.thick" :scale="store.canvas.scale" :width="state.rulerWidth" :height="state.rulerHeight"
+        :start-x="state.startX" :start-y="state.startY" :shadow="shadow" :isShowReferLine="state.isShowReferLine"
+        :lines="state.lines">
       </SketchRule>
-      <!-- 大屏幕 -->
-      <div
-        id="screens"
-        ref="screensRef"
-        @wheel="handleWheel"
-        @scroll="handleScroll"
-      >
+      <div id="screens" ref="screensRef" @wheel="handleWheel" @scroll="handleScroll">
         <div ref="containerRef" class="screen-container">
           <!-- 画布 -->
           <div id="canvas" ref="canvasRef" :style="canvasStyle">
@@ -44,7 +30,7 @@ import {
   onMounted,
   nextTick,
   inject,
-  watch,
+  onBeforeUnmount,
 } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
@@ -60,8 +46,8 @@ const store = useStore();
 const data: Data = inject("data")!; // ! 是 TypeScript 中的非空断言操作符
 
 //rectWidth,rectHeight为画布宽高
-const rectWidth = computed<number>(() => data.container.width);
-const rectHeight = computed<number>(() => data.container.height);
+const rectWidth = computed(() => data.container.width);
+const rectHeight = computed(() => data.container.height);
 const screensRef: any = ref(null);
 const containerRef: any = ref(null);
 const wapperRef: any = ref(null);
@@ -74,6 +60,9 @@ store.canvas.canvasRef = computed(() => canvasRef.value);
 const state = reactive({
   startX: 0,
   startY: 0,
+  //标尺的宽高
+  rulerWidth: 0,
+  rulerHeight: 0,
   lines: {
     h: [0, 750],
     v: [0, 525],
@@ -83,9 +72,6 @@ const state = reactive({
   isShowReferLine: false, // 显示参考线
 });
 
-//标尺的宽高
-let rulerWidth = computed(() => wapperRef.value?.offsetWidth - state.thick);
-let rulerHeight = computed(() => wapperRef.value?.offsetHeight - state.thick);
 
 //背景阴影
 const shadow = computed(() => {
@@ -104,6 +90,22 @@ const canvasStyle = computed(() => {
     height: `${rectHeight.value}px`,
     transform: `scale(${store.canvas.scale})`,
   };
+});
+
+
+//监听窗口变化改变标尺宽高
+const handleResize = () => {
+  state.rulerWidth = wapperRef.value?.offsetWidth - state.thick;
+  state.rulerHeight = wapperRef.value?.offsetHeight - state.thick
+};
+
+onMounted(() => {
+  handleResize();
+  // 滚动居中
+  screensRef.value.scrollLeft =
+    containerRef.value.getBoundingClientRect().width / 2 - 200;
+  screensRef.value.scrollTop =
+    containerRef.value.getBoundingClientRect().height / 2 - 150;
 });
 
 // 控制滚动后画布的尺寸
@@ -144,31 +146,31 @@ const handleWheel = (e: {
 };
 
 // 滚动居中
-function scrollCenter() {
-  screensRef.value.scrollLeft =
-    containerRef.value.getBoundingClientRect().width / 2 - 20;
-  screensRef.value.scrollTop =
-    containerRef.value.getBoundingClientRect().height / 2 - 20;
-}
+// function scrollCenter() {
+//   screensRef.value.scrollLeft =
+//     containerRef.value.getBoundingClientRect().width / 2 - 20;
+//   screensRef.value.scrollTop =
+//     containerRef.value.getBoundingClientRect().height / 2 - 20;
+// }
 
-onMounted(() => {
-  // 滚动居中
-  scrollCenter();
-});
+// onMounted(() => {
+//   // 滚动居中
+//   scrollCenter();
+// });
 
-// 监控左右两个收缩的按钮，重新渲染整个容器组件
-// 不知道为啥不能重新渲染标尺组件
-// 监控左侧栏的宽度，宽度改变时重新渲染
-watch(
-  () => [store.operator.isShowOperator, store.material.isShowMaterial,store.material.materialWidth],
-  () => {
-    key.value = Date.now();
-    nextTick(() => {
-      // 滚动居中
-      scrollCenter()
-    });
-  }
-);
+// // 监控左右两个收缩的按钮，重新渲染整个容器组件
+// // 不知道为啥不能重新渲染标尺组件
+// // 监控左侧栏的宽度，宽度改变时重新渲染
+// watch(
+//   () => [store.operator.isShowOperator, store.material.isShowMaterial,store.material.materialWidth],
+//   () => {
+//     key.value = Date.now();
+//     nextTick(() => {
+//       // 滚动居中
+//       scrollCenter()
+//     });
+//   }
+// );
 </script>
 
 <style lang="scss" scoped>
