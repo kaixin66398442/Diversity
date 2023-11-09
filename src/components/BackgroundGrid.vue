@@ -41,10 +41,17 @@ function initGraph() {
         },
       ],
     },
+    panning: {
+      enabled: true,
+      modifiers: 'shift',
+      eventTypes: ['leftMouseDown', 'rightMouseDown', 'mouseWheel']
+    },
   });
   graph.drawBackground({
     color: store.operator.gridBackgroundColorValue,
   });
+  //画布与视口中心对齐
+  graph.centerContent()
 }
 
 // 校验页面方向函数（横向模式和竖向模式）

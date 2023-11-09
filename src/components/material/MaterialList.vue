@@ -24,10 +24,12 @@
 
     <!-- 物料内容区域 -->
     <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
-      <template #default="{ node, data }">
-        <span>{{ node.label }}</span>
+      <template v-slot:default="{ node, data }">
+        <component :is="data.component" v-if="data.component"></component>
+        <span v-else>{{ node.label }}</span>
       </template>
     </el-tree>
+
 
     <!-- 拖拽线条 -->
     <div class="dragline" @mousedown="mouseDown"></div>
@@ -35,10 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, computed } from "vue";
+import { ref, inject, computed, onMounted, markRaw } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
 import { Data } from "@/type/data";
+import FlowChart from "@/components/material/FlowChart.vue";
+
 
 // 引入data
 const data: Data = inject("data")!;
@@ -63,6 +67,7 @@ const { mouseDown } = useDragChange(materialWidth, 200, 400);
 interface Tree {
   label?: string;
   children?: Tree[];
+  component?: any;
 }
 
 // 左侧物料树状数据
@@ -101,10 +106,7 @@ const treeData: Tree[] = [
     label: "基本流程图形状",
     children: [
       {
-        label: "Level two 4-1",
-      },
-      {
-        label: "Level two 4-2",
+        component: markRaw(FlowChart)
       },
     ],
   },
@@ -112,7 +114,8 @@ const treeData: Tree[] = [
 
 const defaultProps = {
   children: "children",
-  label: "label"
+  label: "label",
+  component: 'component',
 };
 
 </script>
@@ -199,14 +202,6 @@ const defaultProps = {
 
       .el-icon.el-tree-node__expand-icon.is-leaf {
         display: none;
-      }
-
-      #basic-flowchart-shapes {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-content: space-evenly;
-        width: 100%;
       }
     }
   }

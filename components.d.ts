@@ -30,13 +30,15 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTree: typeof import('element-plus/es')['ElTree']
+    Flowchart: typeof import('./src/components/material/flowchart.vue')['default']
+    FlowChart: typeof import('./src/components/material/FlowChart.vue')['default']
     MaterialList: typeof import('./src/components/material/MaterialList.vue')['default']
-    MaterialListItem: typeof import('./src/components/material/MaterialListItem.vue')['default']
     Menu: typeof import('./src/components/nav/Menu.vue')['default']
     Nav: typeof import('./src/components/nav/Nav.vue')['default']
     Operator: typeof import('./src/components/operator/Operator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
+    TestPage: typeof import('./src/components/material/TestPage.vue')['default']
   }
 }
