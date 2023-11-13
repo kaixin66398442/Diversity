@@ -9,6 +9,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@antv/layout": "^0.3.24",
         "@antv/x6": "^2.15.2",
         "@antv/x6-vue-shape": "^2.1.1",
         "@vue/runtime-core": "^3.3.7",

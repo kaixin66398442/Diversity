@@ -25,7 +25,7 @@
     <!-- 物料内容区域 -->
     <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
       <template v-slot:default="{ node, data }">
-        <component :is="data.component" v-if="data.component"></component>
+        <component :is="data.component" :materialWidth="materialWidth" v-if="data.component"></component>
         <span v-else>{{ node.label }}</span>
       </template>
     </el-tree>
