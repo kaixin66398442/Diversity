@@ -17,11 +17,11 @@ const data: Data = inject("data")!;
 const backgroundGridRef = ref();
 
 // 将graph设为全局变量
-let graph: any;
+// let graph: any;
 
 // 初始化graph
 function initGraph() {
-  graph = new Graph({
+  store.canvas.graph = new Graph({
     container: backgroundGridRef.value,
     width: data.container.width,
     height: data.container.height,
@@ -47,11 +47,13 @@ function initGraph() {
       eventTypes: ['leftMouseDown', 'rightMouseDown', 'mouseWheel']
     },
   });
-  graph.drawBackground({
+  store.canvas.graph.drawBackground({
     color: store.operator.gridBackgroundColorValue,
   });
   //画布与视口中心对齐
-  graph.centerContent()
+  store.canvas.graph.centerContent()
+
+  store.canvas.graph.fromJSON(data)
 }
 
 // 校验页面方向函数（横向模式和竖向模式）
@@ -78,6 +80,7 @@ function checkDirection() {
 onMounted(() => {
   // X6配置
   initGraph();
+  console.log('store.canvas.graph', store.canvas.graph)
 });
 
 // 监听画布页面方向和预设画布类型
@@ -101,7 +104,7 @@ watch(
     store.operator.isShowGrid,
   ],
   () => {
-    graph.dispose();
+    store.canvas.graph.dispose();
     initGraph();
   },
   {

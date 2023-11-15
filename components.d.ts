@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     MaterialList: typeof import('./src/components/material/MaterialList.vue')['default']
     Menu: typeof import('./src/components/nav/Menu.vue')['default']
     Nav: typeof import('./src/components/nav/Nav.vue')['default']
+    NodeList: typeof import('./src/components/material/NodeList.vue')['default']
     Operator: typeof import('./src/components/operator/Operator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -23,12 +23,16 @@
     </div>
 
     <!-- 物料内容区域 -->
-    <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
+    <!-- <el-tree :data="treeData" :props="defaultProps" class="custom-tree">
       <template v-slot:default="{ node, data }">
         <component :is="data.component" :materialWidth="materialWidth" v-if="data.component"></component>
         <span v-else>{{ node.label }}</span>
       </template>
-    </el-tree>
+    </el-tree> -->
+    <div class="materialArea">
+      <NodeList :materialWidth="materialWidth" />
+    </div>
+
 
 
     <!-- 拖拽线条 -->
@@ -41,7 +45,6 @@ import { ref, inject, computed, onMounted, markRaw } from "vue";
 import { useStore } from "@/store";
 import { useDragChange } from "@/hook/useDragChange";
 import { Data } from "@/type/data";
-import FlowChart from "@/components/material/FlowChart.vue";
 
 
 // 引入data
@@ -64,64 +67,67 @@ const materialWidth = computed({
 const { mouseDown } = useDragChange(materialWidth, 200, 400);
 
 //elementplus的物料二级菜单，后续需要改
-interface Tree {
-  label?: string;
-  children?: Tree[];
-  component?: any;
-}
+// interface Tree {
+//   label?: string;
+//   children?: Tree[];
+//   component?: any;
+// }
 
-// 左侧物料树状数据
-const treeData: Tree[] = [
-  {
-    label: "我的收藏",
-    children: [
-      {
-        label: "子节点1",
-      },
-    ],
-  },
-  {
-    label: "文本",
-    children: [
-      {
-        label: "Level two 2-1",
-      },
-      {
-        label: "Level two 2-2",
-      },
-    ],
-  },
-  {
-    label: "基本绘图形状",
-    children: [
-      {
-        label: "Level two 3-1",
-      },
-      {
-        label: "Level two 3-2",
-      },
-    ],
-  },
-  {
-    label: "基本流程图形状",
-    children: [
-      {
-        component: markRaw(FlowChart)
-      },
-    ],
-  },
-];
+// // 左侧物料树状数据
+// const treeData: Tree[] = [
+//   {
+//     label: "我的收藏",
+//     children: [
+//       {
+//         label: "子节点1",
+//       },
+//     ],
+//   },
+//   {
+//     label: "文本",
+//     children: [
+//       {
+//         label: "Level two 2-1",
+//       },
+//       {
+//         label: "Level two 2-2",
+//       },
+//     ],
+//   },
+//   {
+//     label: "基本绘图形状",
+//     children: [
+//       {
+//         label: "Level two 3-1",
+//       },
+//       {
+//         label: "Level two 3-2",
+//       },
+//     ],
+//   },
+//   {
+//     label: "基本流程图形状",
+//     children: [
+//       {
+//         component: markRaw(FlowChart)
+//       },
+//     ],
+//   },
+// ];
 
-const defaultProps = {
-  children: "children",
-  label: "label",
-  component: 'component',
-};
+// const defaultProps = {
+//   children: "children",
+//   label: "label",
+//   component: 'component',
+// };
 
 </script>
 
 <style lang="scss" scoped>
 .material-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   position: relative;
   height: 100%;
   background-color: #f5f5f5;
@@ -204,6 +210,12 @@ const defaultProps = {
         display: none;
       }
     }
+  }
+
+  .materialArea {
+    flex: 1;
+    width: 100%;
+    background: #fff;
   }
 
   .dragline {

@@ -5,7 +5,8 @@
 <script setup lang="ts">
 import { Data } from '@/type/data';
 import { Graph } from '@antv/x6';
-import { GridLayout } from '@antv/layout'  // umd模式下， const { GridLayout } = window.layout
+// import { GridLayout } from '@antv/layout'  // umd模式下， const { GridLayout } = window.layout
+import { Stencil } from '@antv/x6-plugin-stencil'
 import { onMounted, ref, nextTick, watch, inject, reactive } from 'vue';
 
 const data: Data = inject("data")!;
@@ -36,57 +37,47 @@ const initMaterial = () => {
                 const rect = container.getBoundingClientRect();
                 const width = rect.width;
                 const height = rect.height;
-                graph.value = new Graph({
-                    container,
-                    width,
-                    height,
-                    background: {
-                        color: '#fff', // 设置画布背景颜色
-                    },
-                    grid: {
-                        size: 10,      // 网格大小 10px
-                        visible: true, // 渲染网格背景
-                    },
-                    autoResize: true,
-                    panning: {
-                        enabled: false,
-                    },
-                });
+                // graph.value = new Graph({
+                //     container,
+                //     width,
+                //     height,
+                //     background: {
+                //         color: '#fff', // 设置画布背景颜色
+                //     },
+                //     grid: {
+                //         size: 10,      // 网格大小 10px
+                //         visible: true, // 渲染网格背景
+                //     },
+                //     autoResize: true,
+                //     panning: {
+                //         enabled: false,
+                //     },
+                // });
+                // graph?.value?.fromJSON(data)
 
-                const model = {
-                    nodes: data.nodes,
-                }
 
-                const gridLayout = new GridLayout({
-                    type: 'grid',
-                    width,
-                    height,
-                    // condense: true,
-                    preventOverlap: true,
-                    preventOverlapPadding: 20,
+                const stencil = new Stencil({
+                    title: '左侧流程图物料',
+                    target: graph,
+                    groups: [
+                        {
+                            name: '基本流程图',
+                        },
+                        {
+                            name: '基本图形',
+                        },
+                    ],
+                    search: true,
+                    placeholder: '请输入搜索的节点',
+                    notFoundText: '为匹配到搜索结果',
+                    collapsable: true
                 })
 
-                const newModel = gridLayout.layout(model)
-                graph?.value?.fromJSON(newModel)
+                // 需要一个容纳 stencil 的 Dom 容器 stencilContainer
+                flowchartRef?.value.appendChild(stencil.container)
+                stencil.load(data.nodes, '基本流程图')
+                stencil.load(data.nodes, '基本图形')
 
-                // const stencil = new Addon.Stencil({
-                //     target: graph,
-                //     stencilGraphWidth: width,
-                //     stencilGraphHeight: height,
-                //     groups: [
-                //         {
-                //             title: '基础流程图',
-                //             name: 'group1',
-                //         },
-                //     ],
-                //     layoutOptions: {
-                //         columns: 2,
-                //         columnWidth: 80,
-                //         rowHeight: 55,
-                //     }
-                // })
-                // container.appendChild(stencil.container)
-                // graph?.value?.fromJSON(data)
             }, 20);
 
         }

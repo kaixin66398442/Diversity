@@ -11,6 +11,7 @@
     "dependencies": {
         "@antv/layout": "^0.3.24",
         "@antv/x6": "^2.15.2",
+        "@antv/x6-plugin-stencil": "^2.1.4",
         "@antv/x6-vue-shape": "^2.1.1",
         "@vue/runtime-core": "^3.3.7",
         "consola": "^3.1.0",
