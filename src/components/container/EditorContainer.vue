@@ -3,11 +3,24 @@
   <div class="editor-container">
     <div class="wrapper" ref="wapperRef" v-resize="handleResize">
       <!--  这个可以传入图标 -->
-      <SketchRule :thick="state.thick" :scale="store.canvas.scale" :width="state.rulerWidth" :height="state.rulerHeight"
-        :start-x="state.startX" :start-y="state.startY" :shadow="shadow" :isShowReferLine="state.isShowReferLine"
-        :lines="state.lines">
+      <SketchRule
+        :thick="state.thick"
+        :scale="store.canvas.scale"
+        :width="state.rulerWidth"
+        :height="state.rulerHeight"
+        :start-x="state.startX"
+        :start-y="state.startY"
+        :shadow="shadow"
+        :isShowReferLine="state.isShowReferLine"
+        :lines="state.lines"
+      >
       </SketchRule>
-      <div id="screens" ref="screensRef" @wheel="handleWheel" @scroll="handleScroll">
+      <div
+        id="screens"
+        ref="screensRef"
+        @wheel="handleWheel"
+        @scroll="handleScroll"
+      >
         <div ref="containerRef" class="screen-container">
           <!-- 画布 -->
           <div id="canvas" ref="canvasRef" :style="canvasStyle">
@@ -30,7 +43,6 @@ import {
   onMounted,
   nextTick,
   inject,
-  onBeforeUnmount,
 } from "vue";
 
 import { SketchRule } from "vue3-sketch-ruler";
@@ -72,7 +84,6 @@ const state = reactive({
   isShowReferLine: false, // 显示参考线
 });
 
-
 //背景阴影
 const shadow = computed(() => {
   return {
@@ -92,11 +103,10 @@ const canvasStyle = computed(() => {
   };
 });
 
-
 //监听窗口变化改变标尺宽高
 const handleResize = () => {
   state.rulerWidth = wapperRef.value?.offsetWidth - state.thick;
-  state.rulerHeight = wapperRef.value?.offsetHeight - state.thick
+  state.rulerHeight = wapperRef.value?.offsetHeight - state.thick;
 };
 
 onMounted(() => {
@@ -178,7 +188,7 @@ const handleWheel = (e: {
   flex: 1;
   position: relative;
   width: 100%;
-  height: 91%;
+  height: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 
   .wrapper {
